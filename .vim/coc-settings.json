@@ -1,0 +1,4 @@
+{
+  "tsserver.enable": true,
+  "typescript.suggestionActions.enabled": false
+}

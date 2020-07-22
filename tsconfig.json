@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "noImplicitThis": false,
+    "module": "amd",
+    "moduleResolution": "node",
+    "target": "es5",
+    "allowJs": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "lib": ["es6", "dom"],
+    "typeRoots": ["node_modules/@types", "./types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["./src/**/*"],
+  "exclude": ["./src/**/__tests__/**"]
+}

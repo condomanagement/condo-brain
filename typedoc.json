@@ -1,0 +1,8 @@
+{
+  "out": "docs",
+  "mode": "file",
+  "exclude": [
+    "**/__tests__/**/*",
+    "**/__mocks__/**/*"
+  ]
+}

@@ -1,0 +1,4 @@
+dist/
+scripts/
+docs/
+.eslintrs.js

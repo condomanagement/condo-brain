@@ -1,8 +1,10 @@
-# Ruby CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-ruby/ for more details
-#
 version: 2
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:latest-browsers
+      environment:
+        - CI=true
 jobs:
   build:
     docker:
@@ -40,6 +42,10 @@ jobs:
           name: Test && CodeCov
           command: npm run test && npx codecov
 
+      - run:
+          name: Build
+          command: npm run build-production
+
       # collect reports
       - store_test_results:
           path: /tmp/test-results
@@ -48,3 +54,20 @@ jobs:
           path: /tmp/test-results
           destination: test-results
 
+    deploy:
+      requires:
+        - build
+      filters:
+        branches:
+          only: main
+  deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
+      - run:
+          name: Publish package
+          command: npm publish

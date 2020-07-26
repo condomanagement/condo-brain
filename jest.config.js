@@ -6,9 +6,6 @@ module.exports = {
     '**/__tests__/**/*.+(ts|tsx|js)',
     '**/?(*.)+(spec|test).+(ts|tsx|js)',
   ],
-  testPathIgnorePatterns: [
-    'src/utilities/encryption/__tests__/lib/',
-  ],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },

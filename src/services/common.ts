@@ -1,3 +1,4 @@
-export interface SuccessResponse {
+export interface GenericResponse {
   success: boolean;
+  error?: string;
 }

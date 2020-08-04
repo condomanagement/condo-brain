@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
+    "jsx": "react",
+    "outDir": "./dist",
     "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
     "noImplicitAny": true,
     "noImplicitThis": false,
-    "module": "amd",
+    "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
     "allowJs": true,
@@ -12,6 +15,7 @@
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
     "typeRoots": ["node_modules/@types", "./types"],
+    "rootDir": "src",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },

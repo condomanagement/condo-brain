@@ -2,9 +2,12 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: {
+    'condo-brain': './src/index.ts',
+  },
   devtool: 'source-map',
   mode: 'production',
+  target: 'node',
   module: {
     rules: [
       {
@@ -28,8 +31,10 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: 'condo-brain.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     library: 'CondoBrain',
+    libraryTarget: 'umd',
+    umdNamedDefine: true,
   },
 };

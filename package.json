@@ -2,7 +2,9 @@
   "name": "condo-brain",
   "version": "0.1.0",
   "description": "Common interface for condo apps",
-  "main": "index.js",
+  "main": "dist/bundle.js",
+  "type": "commonjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "npx jest --coverage",
     "build": "npm run build-production; npm run build-development",
@@ -11,8 +13,8 @@
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "test-watch": "npx jest --watchAll --coverage",
     "build-watch": "npx webpack -w --mode=production",
-    "build-production": "npx webpack --mode=production -o=dist/console-commerce-brain.js",
-    "build-development": "npx webpack --mode=development -o=dist/console-commerce-brain.dev.js",
+    "build-production": "npx webpack --mode=production",
+    "build-development": "npx webpack --mode=development",
     "build-analyze": "npx webpack --profile --json > stats.json && webpack-bundle-analyzer ./stats.json"
   },
   "repository": {
@@ -67,5 +69,8 @@
     "webpack-bundle-analyzer": "^3.8.0",
     "webpack-cli": "^3.3.12",
     "whatwg-fetch": "^3.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
   }
 }

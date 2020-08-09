@@ -1,41 +1,88 @@
 import axios from 'axios';
+import {
+  get as getCookie,
+  remove as removeCookie,
+  set as setCookie,
+} from 'es-cookie';
 import { UserApi } from '../services/user-api';
 
 export class UserManager implements UserApi {
-  public _loggedIn: boolean;
+  public loggedIn: boolean;
 
-  public _authKey: string | undefined;
+  public isAdmin: boolean;
 
-  constructor(authKey: string | undefined = undefined) {
-    this._loggedIn = false;
-    if (authKey) {
-      this.validateAuthKey(authKey);
+  public authKey: string | undefined;
+
+  constructor() {
+    this.loggedIn = false;
+    this.isAdmin = false;
+    if (getCookie('token')) {
+      this.authKey = getCookie('token');
+      if (this.authKey) {
+        this.validateAuthKey(this.authKey);
+      }
     } else {
-      this._authKey = undefined;
+      this.authKey = undefined;
     }
   }
 
   public async login(email: string): Promise<void> {
     const loginEmail = await axios.post('/api/authentication/login', { email }).then((result) => result.data);
-    this._authKey = undefined;
-    this._loggedIn = false;
+    this.authKey = undefined;
+    this.loggedIn = false;
     return loginEmail;
   }
 
   public async logout(authKey: string): Promise<boolean> {
-    this._authKey = undefined;
-    this._loggedIn = false;
-    const logoutKey = await axios.post('/api/authentication/logout', { authKey }).then((result) => result.data);
-    return logoutKey;
+    this.authKey = undefined;
+    this.loggedIn = false;
+    return axios.post('/api/authentication/logout', { token: authKey }).then((result) => {
+      if (result.data.success === true) {
+        this.loggedIn = false;
+        this.isAdmin = false;
+        removeCookie('token');
+        return true;
+      }
+      return false;
+    });
+  }
+
+  public async processLogin(emailKey: string): Promise<boolean | string> {
+    return axios.post('/api/authentication/process_login', { emailKey }).then((result) => {
+      if (result.data.success === false) {
+        return false;
+      }
+      if (result.data.token) {
+        this.authKey = result.data.token;
+        if (this.authKey) {
+          this.loggedIn = true;
+          setCookie('token', this.authKey, { expires: 10 });
+        }
+        return true;
+      }
+      return false;
+    });
+  }
+
+  public async validateToken(token: string): Promise<boolean> {
+    return axios.post('/api/authentication/valid', { token }).then((result) => {
+      let success = false;
+      if (result.data.success === true) {
+        success = true;
+        this.authKey = token;
+        this.loggedIn = true;
+      }
+      return success;
+    });
   }
 
   private async validateAuthKey(authKey: string): Promise<void> {
-    const valid = await axios.post('/api/authentication/validateAuthKey', { authKey }).then((result) => result.data);
+    const valid = await axios.post('/api/authentication/valid', { token: authKey }).then((result) => result.data);
     if (valid.valid) {
-      this._loggedIn = valid;
-      this._authKey = valid.authKey;
+      this.loggedIn = valid;
+      this.authKey = valid.authKey;
     } else {
-      this._authKey = undefined;
+      this.authKey = undefined;
     }
   }
 }

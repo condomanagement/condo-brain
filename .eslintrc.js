@@ -45,6 +45,8 @@ module.exports = {
     'jest/valid-expect': 'error',
     'no-console': ['error', { allow: ['warn', 'error'] }],
     'max-len': ['error', { code: 120 }],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     indent: ['error', 2],
     'sort-imports': ['error', {
       ignoreCase: false,

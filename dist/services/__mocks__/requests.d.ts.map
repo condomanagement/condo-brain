@@ -1,0 +1,1 @@
+{"version":3,"file":"requests.d.ts","sourceRoot":"","sources":["../../../src/services/__mocks__/requests.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,mBAAmB,EAAE,MAAM,gBAAgB,CAAC;AACrD,OAAO,EAAE,eAAe,EAAE,MAAM,WAAW,CAAC;AAE5C,eAAO,MAAM,uBAAuB,EAAE,mBAUrC,CAAC;AAEF,eAAO,MAAM,mBAAmB,EAAE,eAEjC,CAAC"}

@@ -1,5 +1,6 @@
 export interface AdminApi {
   getUsers(): Promise<User[]>;
+  upload(formData: FormData): Promise<boolean>
 }
 
 export interface User {

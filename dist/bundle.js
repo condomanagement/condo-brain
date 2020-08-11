@@ -3723,6 +3723,116 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.getQuestions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var questions;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, []];
+                        }
+                        return [4 /*yield*/, axios_1.default.get('/api/questions').then(function (result) { return result.data; })];
+                    case 1:
+                        questions = _a.sent();
+                        return [2 /*return*/, questions];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.createQuestion = function (formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.post('/api/questions/create', formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        addResult = _a.sent();
+                        return [2 /*return*/, addResult];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.deleteQuestion = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var deleteResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.delete("/api/questions/destroy/" + id)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        deleteResult = _a.sent();
+                        return [2 /*return*/, deleteResult];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.getAmenities = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var amenities;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, []];
+                        }
+                        return [4 /*yield*/, axios_1.default.get('/api/resources').then(function (result) { return result.data; })];
+                    case 1:
+                        amenities = _a.sent();
+                        return [2 /*return*/, amenities];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.createAmenity = function (formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.post('/api/resources/create', formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        addResult = _a.sent();
+                        return [2 /*return*/, addResult];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.deleteAmenity = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var deleteResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.delete("/api/resources/destroy/" + id)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        deleteResult = _a.sent();
+                        return [2 /*return*/, deleteResult];
+                }
+            });
+        });
+    };
     AdminManager.prototype.upload = function (formData) {
         return __awaiter(this, void 0, void 0, function () {
             var uploadResult;

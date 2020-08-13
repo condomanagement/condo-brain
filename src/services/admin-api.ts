@@ -7,6 +7,7 @@ export interface AdminApi {
   getAmenities(): Promise<Amenity[]>
   createAmenity(formData: FormData): Promise<boolean>
   deleteAmenity(id: number): Promise<boolean>
+  getReservations(): Promise<Reservation[]>
 }
 
 export interface User {
@@ -26,4 +27,13 @@ export interface Question {
 export interface Amenity {
   id: number;
   name: string;
+}
+
+export interface Reservation {
+  id: number;
+  userName: string;
+  userEmail: string;
+  amenity: string;
+  startTime: Date;
+  endTime: Date;
 }

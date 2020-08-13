@@ -105,6 +105,19 @@ export class UserManager implements UserApi {
     return amenities;
   }
 
+  public async visitorParking(formData: FormData): Promise<GenericResponse> {
+    if (this.loggedIn) {
+      this.loggedIn = true;
+    }
+
+    const addParkingReservation: GenericResponse = await axios.post('/api/parking/create', formData)
+      .then((_result) => (({ success: true })))
+      .catch((error) => (
+        ({ success: false, error: error.response.data.error })
+      ));
+    return addParkingReservation;
+  }
+
   private async validateAuthKey(authKey: string): Promise<void> {
     const valid = await axios.post('/api/authentication/valid', { token: authKey }).then((result) => result.data);
     if (valid.valid) {

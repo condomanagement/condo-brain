@@ -4078,6 +4078,25 @@ var UserManager = /** @class */ (function () {
             });
         });
     };
+    UserManager.prototype.visitorParking = function (formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addParkingReservation;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.loggedIn) {
+                            this.loggedIn = true;
+                        }
+                        return [4 /*yield*/, axios_1.default.post('/api/parking/create', formData)
+                                .then(function (_result) { return (({ success: true })); })
+                                .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                    case 1:
+                        addParkingReservation = _a.sent();
+                        return [2 /*return*/, addParkingReservation];
+                }
+            });
+        });
+    };
     UserManager.prototype.validateAuthKey = function (authKey) {
         return __awaiter(this, void 0, void 0, function () {
             var valid;

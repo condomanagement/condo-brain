@@ -3,6 +3,7 @@ import {
   AdminApi,
   Amenity,
   Question,
+  Reservation,
   User,
 } from '../services/admin-api';
 
@@ -27,6 +28,18 @@ export class AdminManager implements AdminApi {
     }
     const questions: Question[] = await axios.get('/api/questions').then((result) => result.data);
     return questions;
+  }
+
+  public async getReservations(): Promise<Reservation[]> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const reservations: Reservation[] = await axios.get('/api/reservations').then((result) => (
+      result.data
+    ));
+
+    return reservations;
   }
 
   public async createQuestion(formData: FormData): Promise<boolean> {

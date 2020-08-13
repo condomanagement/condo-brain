@@ -3740,6 +3740,23 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.getReservations = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var reservations;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.get('/api/reservations').then(function (result) { return (result.data); })];
+                    case 1:
+                        reservations = _a.sent();
+                        return [2 /*return*/, reservations];
+                }
+            });
+        });
+    };
     AdminManager.prototype.createQuestion = function (formData) {
         return __awaiter(this, void 0, void 0, function () {
             var addResult;

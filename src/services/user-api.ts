@@ -9,6 +9,7 @@ export interface UserApi {
   createReservation(formData: FormData): Promise<GenericResponse>;
   getQuestions(): Promise<Question[]>
   getAmenities(): Promise<Amenity[]>
+  visitorParking(formData: FormData): Promise<GenericResponse>;
 }
 
 export interface GenericResponse {

@@ -11,6 +11,7 @@ export declare class UserManager implements UserApi {
     createReservation(formData: FormData): Promise<GenericResponse>;
     getQuestions(): Promise<Question[]>;
     getAmenities(): Promise<Amenity[]>;
+    visitorParking(formData: FormData): Promise<GenericResponse>;
     private validateAuthKey;
 }
 export default UserManager;

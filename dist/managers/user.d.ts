@@ -1,4 +1,4 @@
-import { UserApi } from '../services/user-api';
+import { Amenity, GenericResponse, Question, UserApi } from '../services/user-api';
 export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
@@ -8,6 +8,9 @@ export declare class UserManager implements UserApi {
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;
     validateToken(token: string): Promise<boolean>;
+    createReservation(formData: FormData): Promise<GenericResponse>;
+    getQuestions(): Promise<Question[]>;
+    getAmenities(): Promise<Amenity[]>;
     private validateAuthKey;
 }
 export default UserManager;

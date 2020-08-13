@@ -4029,6 +4029,55 @@ var UserManager = /** @class */ (function () {
             });
         });
     };
+    UserManager.prototype.createReservation = function (formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addReservation;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.post('/api/reservations/create', formData)
+                            .then(function (_result) {
+                            _this.loggedIn = true;
+                            return ({ success: true });
+                        })
+                            .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                    case 1:
+                        addReservation = _a.sent();
+                        return [2 /*return*/, addReservation];
+                }
+            });
+        });
+    };
+    UserManager.prototype.getQuestions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var questions;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.authKey = es_cookie_1.get('token');
+                        return [4 /*yield*/, axios_1.default.get('/api/questions').then(function (result) { return result.data; })];
+                    case 1:
+                        questions = _a.sent();
+                        return [2 /*return*/, questions];
+                }
+            });
+        });
+    };
+    UserManager.prototype.getAmenities = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var amenities;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.authKey = es_cookie_1.get('token');
+                        return [4 /*yield*/, axios_1.default.get('/api/resources').then(function (result) { return result.data; })];
+                    case 1:
+                        amenities = _a.sent();
+                        return [2 /*return*/, amenities];
+                }
+            });
+        });
+    };
     UserManager.prototype.validateAuthKey = function (authKey) {
         return __awaiter(this, void 0, void 0, function () {
             var valid;

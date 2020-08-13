@@ -4,7 +4,12 @@ import {
   remove as removeCookie,
   set as setCookie,
 } from 'es-cookie';
-import { UserApi } from '../services/user-api';
+import {
+  Amenity,
+  GenericResponse,
+  Question,
+  UserApi,
+} from '../services/user-api';
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -74,6 +79,30 @@ export class UserManager implements UserApi {
       }
       return success;
     });
+  }
+
+  public async createReservation(formData: FormData): Promise<GenericResponse> {
+    const addReservation: GenericResponse = await axios.post('/api/reservations/create', formData)
+      .then((_result) => {
+        this.loggedIn = true;
+        return ({ success: true });
+      })
+      .catch((error) => (
+        ({ success: false, error: error.response.data.error })
+      ));
+    return addReservation;
+  }
+
+  public async getQuestions(): Promise<Question[]> {
+    this.authKey = getCookie('token');
+    const questions: Question[] = await axios.get('/api/questions').then((result) => result.data);
+    return questions;
+  }
+
+  public async getAmenities(): Promise<Amenity[]> {
+    this.authKey = getCookie('token');
+    const amenities: Amenity[] = await axios.get('/api/resources').then((result) => result.data);
+    return amenities;
   }
 
   private async validateAuthKey(authKey: string): Promise<void> {

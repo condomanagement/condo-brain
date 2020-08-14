@@ -8,6 +8,7 @@ export interface AdminApi {
     createAmenity(formData: FormData): Promise<boolean>;
     deleteAmenity(id: number): Promise<boolean>;
     getReservations(): Promise<Reservation[]>;
+    getParkingRegistrations(): Promise<ParkingRegistration[]>;
 }
 export interface User {
     id: number;
@@ -32,5 +33,15 @@ export interface Reservation {
     amenity: string;
     startTime: Date;
     endTime: Date;
+}
+export interface ParkingRegistration {
+    id: number;
+    startDate: Date;
+    endDate: Date;
+    license: string;
+    unit: number;
+    make: string;
+    color: string;
+    contact: string;
 }
 //# sourceMappingURL=admin-api.d.ts.map

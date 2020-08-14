@@ -3757,6 +3757,24 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.getParkingRegistrations = function (when) {
+        if (when === void 0) { when = 'today'; }
+        return __awaiter(this, void 0, void 0, function () {
+            var registration;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.get("/api/parking/" + when).then(function (result) { return (result.data); })];
+                    case 1:
+                        registration = _a.sent();
+                        return [2 /*return*/, registration];
+                }
+            });
+        });
+    };
     AdminManager.prototype.createQuestion = function (formData) {
         return __awaiter(this, void 0, void 0, function () {
             var addResult;
@@ -4040,6 +4058,7 @@ var UserManager = /** @class */ (function () {
                             success = true;
                             _this.authKey = token;
                             _this.loggedIn = true;
+                            _this.isAdmin = result.data.user.admin;
                         }
                         return success;
                     })];

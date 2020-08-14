@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   AdminApi,
   Amenity,
+  ParkingRegistration,
   Question,
   Reservation,
   User,
@@ -40,6 +41,18 @@ export class AdminManager implements AdminApi {
     ));
 
     return reservations;
+  }
+
+  public async getParkingRegistrations(when = 'today'): Promise<ParkingRegistration[]> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const registration: ParkingRegistration[] = await axios.get(`/api/parking/${when}`).then((result) => (
+      result.data
+    ));
+
+    return registration;
   }
 
   public async createQuestion(formData: FormData): Promise<boolean> {

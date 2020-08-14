@@ -1,10 +1,11 @@
-import { AdminApi, Amenity, Question, Reservation, User } from '../services/admin-api';
+import { AdminApi, Amenity, ParkingRegistration, Question, Reservation, User } from '../services/admin-api';
 export declare class AdminManager implements AdminApi {
     private _isAdmin;
     constructor();
     getUsers(): Promise<User[]>;
     getQuestions(): Promise<Question[]>;
     getReservations(): Promise<Reservation[]>;
+    getParkingRegistrations(when?: string): Promise<ParkingRegistration[]>;
     createQuestion(formData: FormData): Promise<boolean>;
     deleteQuestion(id: number): Promise<boolean>;
     getAmenities(): Promise<Amenity[]>;

@@ -76,6 +76,7 @@ export class UserManager implements UserApi {
         success = true;
         this.authKey = token;
         this.loggedIn = true;
+        this.isAdmin = result.data.user.admin;
       }
       return success;
     });

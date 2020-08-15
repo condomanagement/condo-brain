@@ -1,4 +1,4 @@
-import { Amenity, GenericResponse, Question, UserApi } from '../services/user-api';
+import { Amenity, GenericResponse, Question, ReservationTime, UserApi } from '../services/user-api';
 export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
@@ -11,6 +11,7 @@ export declare class UserManager implements UserApi {
     createReservation(formData: FormData): Promise<GenericResponse>;
     getQuestions(): Promise<Question[]>;
     getAmenities(): Promise<Amenity[]>;
+    findReservations(date: Date, amenity: number): Promise<ReservationTime[]>;
     visitorParking(formData: FormData): Promise<GenericResponse>;
     private validateAuthKey;
 }

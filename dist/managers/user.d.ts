@@ -15,6 +15,7 @@ export declare class UserManager implements UserApi {
     findReservations(date: Date, amenity: number): Promise<ReservationTime[]>;
     visitorParking(formData: FormData): Promise<GenericResponse>;
     getMyReservations(): Promise<MyReservation[]>;
+    deleteMyReservation(id: number): Promise<boolean>;
     private validateAuthKey;
 }
 export default UserManager;

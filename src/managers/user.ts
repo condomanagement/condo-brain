@@ -141,9 +141,20 @@ export class UserManager implements UserApi {
     }
 
     const myReservations = await axios.get('/api/reservations/mine')
-      .then((result) => (result.data()))
-      .catch((error) => (error()));
+      .then((result) => (result.data))
+      .catch((error) => (error));
     return myReservations;
+  }
+
+  public async deleteMyReservation(id: number): Promise<boolean> {
+    if (this.loggedIn) {
+      this.loggedIn = true;
+    }
+    const deleteResult: boolean = await axios.delete(`/api/reservations/destroy/${id}`)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return deleteResult;
   }
 
   private async validateAuthKey(authKey: string): Promise<void> {

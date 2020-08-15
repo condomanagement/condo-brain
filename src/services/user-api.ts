@@ -14,6 +14,7 @@ export interface UserApi {
   visitorParking(formData: FormData): Promise<GenericResponse>;
   findReservations(date: Date, amenity: number): Promise<ReservationTime[]>
   getMyReservations(): Promise<MyReservation[]>
+  deleteMyReservation(id: number): Promise<boolean>
 }
 
 export interface GenericResponse {

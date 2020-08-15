@@ -3647,6 +3647,7 @@ __exportStar(__webpack_require__(/*! ./managers/parking */ "./src/managers/parki
 __exportStar(__webpack_require__(/*! ./managers/admin-api */ "./src/managers/admin-api.ts"), exports);
 __exportStar(__webpack_require__(/*! ./services/admin-api */ "./src/services/admin-api.ts"), exports);
 __exportStar(__webpack_require__(/*! ./managers/user */ "./src/managers/user.ts"), exports);
+__exportStar(__webpack_require__(/*! ./services/user-api */ "./src/services/user-api.ts"), exports);
 
 
 /***/ }),
@@ -4155,6 +4156,44 @@ var UserManager = /** @class */ (function () {
             });
         });
     };
+    UserManager.prototype.getMyReservations = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var myReservations;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.loggedIn) {
+                            this.loggedIn = true;
+                        }
+                        return [4 /*yield*/, axios_1.default.get('/api/reservations/mine')
+                                .then(function (result) { return (result.data); })
+                                .catch(function (error) { return (error); })];
+                    case 1:
+                        myReservations = _a.sent();
+                        return [2 /*return*/, myReservations];
+                }
+            });
+        });
+    };
+    UserManager.prototype.deleteMyReservation = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var deleteResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (this.loggedIn) {
+                            this.loggedIn = true;
+                        }
+                        return [4 /*yield*/, axios_1.default.delete("/api/reservations/destroy/" + id)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        deleteResult = _a.sent();
+                        return [2 /*return*/, deleteResult];
+                }
+            });
+        });
+    };
     UserManager.prototype.validateAuthKey = function (authKey) {
         return __awaiter(this, void 0, void 0, function () {
             var valid;
@@ -4187,6 +4226,20 @@ exports.default = UserManager;
 /*!***********************************!*\
   !*** ./src/services/admin-api.ts ***!
   \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+
+
+/***/ }),
+
+/***/ "./src/services/user-api.ts":
+/*!**********************************!*\
+  !*** ./src/services/user-api.ts ***!
+  \**********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

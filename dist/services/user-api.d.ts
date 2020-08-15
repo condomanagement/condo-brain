@@ -1,3 +1,4 @@
+import { Amenity, Question } from './admin-api';
 export interface UserApi {
     authKey: string | undefined;
     loggedIn: boolean;
@@ -11,22 +12,20 @@ export interface UserApi {
     getAmenities(): Promise<Amenity[]>;
     visitorParking(formData: FormData): Promise<GenericResponse>;
     findReservations(date: Date, amenity: number): Promise<ReservationTime[]>;
+    getMyReservations(): Promise<MyReservation[]>;
 }
 export interface GenericResponse {
     success: boolean;
     error?: string;
 }
-export interface Question {
-    id: number;
-    question: string;
-    requiredAnswer: boolean;
-}
-export interface Amenity {
-    id: number;
-    name: string;
-}
 export interface ReservationTime {
     id: number;
+    startTime: Date;
+    endTime: Date;
+}
+export interface MyReservation {
+    id: number;
+    amenity: string;
     startTime: Date;
     endTime: Date;
 }

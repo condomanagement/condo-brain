@@ -5,12 +5,12 @@ import {
   set as setCookie,
 } from 'es-cookie';
 import {
-  Amenity,
   GenericResponse,
-  Question,
+  MyReservation,
   ReservationTime,
   UserApi,
 } from '../services/user-api';
+import { Amenity, Question } from '../services/admin-api';
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -133,6 +133,17 @@ export class UserManager implements UserApi {
         ({ success: false, error: error.response.data.error })
       ));
     return addParkingReservation;
+  }
+
+  public async getMyReservations(): Promise<MyReservation[]> {
+    if (this.loggedIn) {
+      this.loggedIn = true;
+    }
+
+    const myReservations = await axios.get('/api/reservations/mine')
+      .then((result) => (result.data()))
+      .catch((error) => (error()));
+    return myReservations;
   }
 
   private async validateAuthKey(authKey: string): Promise<void> {

@@ -4166,8 +4166,8 @@ var UserManager = /** @class */ (function () {
                             this.loggedIn = true;
                         }
                         return [4 /*yield*/, axios_1.default.get('/api/reservations/mine')
-                                .then(function (result) { debugger; return result.data; })
-                                .catch(function (error) { debugger; return error; })];
+                                .then(function (result) { return (result.data()); })
+                                .catch(function (error) { return (error()); })];
                     case 1:
                         myReservations = _a.sent();
                         return [2 /*return*/, myReservations];

@@ -10,6 +10,7 @@ export interface UserApi {
   getQuestions(): Promise<Question[]>
   getAmenities(): Promise<Amenity[]>
   visitorParking(formData: FormData): Promise<GenericResponse>;
+  findReservations(date: Date, amenity: number): Promise<ReservationTime[]>
 }
 
 export interface GenericResponse {
@@ -26,4 +27,10 @@ export interface Question {
 export interface Amenity {
   id: number;
   name: string;
+}
+
+export interface ReservationTime {
+  id: number;
+  startTime: Date;
+  endTime: Date;
 }

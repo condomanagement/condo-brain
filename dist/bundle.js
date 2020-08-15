@@ -4114,6 +4114,28 @@ var UserManager = /** @class */ (function () {
             });
         });
     };
+    UserManager.prototype.findReservations = function (date, amenity) {
+        return __awaiter(this, void 0, void 0, function () {
+            var findReservation;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.post('/api/reservations/find_reservations', {
+                            date: date,
+                            resource: amenity,
+                        })
+                            .then(function (result) {
+                            _this.loggedIn = true;
+                            return result.data;
+                        })
+                            .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                    case 1:
+                        findReservation = _a.sent();
+                        return [2 /*return*/, findReservation];
+                }
+            });
+        });
+    };
     UserManager.prototype.visitorParking = function (formData) {
         return __awaiter(this, void 0, void 0, function () {
             var addParkingReservation;

@@ -8,6 +8,7 @@ import {
   Amenity,
   GenericResponse,
   Question,
+  ReservationTime,
   UserApi,
 } from '../services/user-api';
 
@@ -104,6 +105,21 @@ export class UserManager implements UserApi {
     this.authKey = getCookie('token');
     const amenities: Amenity[] = await axios.get('/api/resources').then((result) => result.data);
     return amenities;
+  }
+
+  public async findReservations(date: Date, amenity: number): Promise<ReservationTime[]> {
+    const findReservation = await axios.post('/api/reservations/find_reservations', {
+      date,
+      resource: amenity,
+    })
+      .then((result) => {
+        this.loggedIn = true;
+        return result.data;
+      })
+      .catch((error) => (
+        ({ success: false, error: error.response.data.error })
+      ));
+    return findReservation;
   }
 
   public async visitorParking(formData: FormData): Promise<GenericResponse> {

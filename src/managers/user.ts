@@ -1,5 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
+import { Md5 } from 'ts-md5';
 import {
   get as getCookie,
   remove as removeCookie,
@@ -20,9 +21,15 @@ export class UserManager implements UserApi {
 
   public authKey: string | undefined;
 
+  public md5Email: string | undefined;
+
+  public fullname: string | undefined;
+
   constructor() {
     this.loggedIn = false;
     this.isAdmin = false;
+    this.md5Email = undefined;
+    this.fullname = undefined;
     if (getCookie('token')) {
       this.authKey = getCookie('token');
       if (this.authKey) {
@@ -78,6 +85,8 @@ export class UserManager implements UserApi {
         success = true;
         this.authKey = token;
         this.loggedIn = true;
+        this.fullname = result.data.user.name;
+        this.md5Email = String(Md5.hashStr(result.data.user.email));
         this.isAdmin = result.data.user.admin;
       }
       return success;

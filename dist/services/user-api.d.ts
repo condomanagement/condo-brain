@@ -3,6 +3,8 @@ export interface UserApi {
     authKey: string | undefined;
     loggedIn: boolean;
     isAdmin: boolean;
+    md5Email: string | undefined;
+    fullname: string | undefined;
     login(email: string): Promise<void>;
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;

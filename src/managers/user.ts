@@ -109,9 +109,11 @@ export class UserManager implements UserApi {
   }
 
   public async findReservations(date: Date, amenity: number): Promise<ReservationTime[]> {
-    const justDay = moment(date).format('YYYY-MM-DD');
+    const startDay = moment(date).startOf('day');
+    const endDay = moment(date).endOf('day');
     const findReservation = await axios.post('/api/reservations/find_reservations', {
-      justDay,
+      startDay,
+      endDay,
       resource: amenity,
     })
       .then((result) => {

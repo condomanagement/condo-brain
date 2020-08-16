@@ -25343,14 +25343,16 @@ var UserManager = /** @class */ (function () {
     };
     UserManager.prototype.findReservations = function (date, amenity) {
         return __awaiter(this, void 0, void 0, function () {
-            var justDay, findReservation;
+            var startDay, endDay, findReservation;
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        justDay = moment_1.default(date).format('YYYY-MM-DD');
+                        startDay = moment_1.default(date).startOf('day');
+                        endDay = moment_1.default(date).endOf('day');
                         return [4 /*yield*/, axios_1.default.post('/api/reservations/find_reservations', {
-                                justDay: justDay,
+                                startDay: startDay,
+                                endDay: endDay,
                                 resource: amenity,
                             })
                                 .then(function (result) {

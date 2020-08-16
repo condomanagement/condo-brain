@@ -25704,7 +25704,6 @@ var UserManager = /** @class */ (function () {
                             _this.fullname = result.data.user.name;
                             _this.md5Email = String(ts_md5_1.Md5.hashStr(result.data.user.email));
                             _this.isAdmin = result.data.user.admin;
-                            debugger;
                         }
                         return success;
                     })];

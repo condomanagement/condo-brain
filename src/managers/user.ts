@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import {
   get as getCookie,
   remove as removeCookie,
@@ -108,8 +109,9 @@ export class UserManager implements UserApi {
   }
 
   public async findReservations(date: Date, amenity: number): Promise<ReservationTime[]> {
+    const justDay = moment(date).format('YYYY-MM-DD');
     const findReservation = await axios.post('/api/reservations/find_reservations', {
-      date,
+      justDay,
       resource: amenity,
     })
       .then((result) => {

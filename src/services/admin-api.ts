@@ -28,6 +28,7 @@ export interface Question {
 export interface Amenity {
   id: number;
   name: string;
+  timeLimit: number;
 }
 
 export interface Reservation {

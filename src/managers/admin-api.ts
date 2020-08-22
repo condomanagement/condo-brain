@@ -67,12 +67,36 @@ export class AdminManager implements AdminApi {
     return addResult;
   }
 
+  public async createAmenityQuestion(formData: FormData): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const addResult: boolean = await axios.post('/api/resource_questions/create', formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return addResult;
+  }
+
   public async deleteQuestion(id: number): Promise<boolean> {
     if (!this._isAdmin) {
       return Promise.reject(Error('Not authorized'));
     }
 
     const deleteResult: boolean = await axios.delete(`/api/questions/destroy/${id}`)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return deleteResult;
+  }
+
+  public async deleteAmenityQuestion(formData: FormData): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const deleteResult: boolean = await axios.post('/api/resource_questions/remove', formData)
       .then((_result) => (true))
       .catch((_error) => (false));
 

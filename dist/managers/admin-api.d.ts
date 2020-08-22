@@ -7,7 +7,9 @@ export declare class AdminManager implements AdminApi {
     getReservations(): Promise<Reservation[]>;
     getParkingRegistrations(when?: string): Promise<ParkingRegistration[]>;
     createQuestion(formData: FormData): Promise<boolean>;
+    createAmenityQuestion(formData: FormData): Promise<boolean>;
     deleteQuestion(id: number): Promise<boolean>;
+    deleteAmenityQuestion(formData: FormData): Promise<boolean>;
     getAmenities(): Promise<Amenity[]>;
     createAmenity(formData: FormData): Promise<boolean>;
     deleteAmenity(id: number): Promise<boolean>;

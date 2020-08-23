@@ -40,11 +40,15 @@ export class UserManager implements UserApi {
     }
   }
 
-  public async login(email: string): Promise<void> {
-    const loginEmail = await axios.post('/api/authentication/login', { email }).then((result) => result.data);
+  public async login(email: string): Promise<boolean> {
     this.authKey = undefined;
     this.loggedIn = false;
-    return loginEmail;
+    return axios.post('/api/authentication/login', { email }).then((result) => {
+      if (result.data.error === 'invalid_email') {
+        return false;
+      }
+      return true;
+    });
   }
 
   public async logout(authKey: string): Promise<boolean> {

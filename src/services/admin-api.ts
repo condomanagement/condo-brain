@@ -9,6 +9,8 @@ export interface AdminApi {
   deleteAmenity(id: number): Promise<boolean>
   getReservations(): Promise<Reservation[]>
   getParkingRegistrations(): Promise<ParkingRegistration[]>
+  createAmenityQuestion(formData: FormData): Promise<boolean>
+  deleteAmenityQuestion(formData: FormData): Promise<boolean>
 }
 
 export interface User {
@@ -23,12 +25,14 @@ export interface Question {
   id: number;
   question: string;
   requiredAnswer: boolean;
+  amenities: Amenity[];
 }
 
 export interface Amenity {
   id: number;
   name: string;
   timeLimit: number;
+  questions: Question[];
 }
 
 export interface Reservation {

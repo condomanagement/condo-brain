@@ -5,7 +5,7 @@ export interface UserApi {
     isAdmin: boolean;
     md5Email: string | undefined;
     fullname: string | undefined;
-    login(email: string): Promise<void>;
+    login(email: string): Promise<boolean>;
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;
     validateToken(token: string): Promise<boolean>;

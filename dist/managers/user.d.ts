@@ -7,7 +7,7 @@ export declare class UserManager implements UserApi {
     md5Email: string | undefined;
     fullname: string | undefined;
     constructor();
-    login(email: string): Promise<void>;
+    login(email: string): Promise<boolean>;
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;
     validateToken(token: string): Promise<boolean>;

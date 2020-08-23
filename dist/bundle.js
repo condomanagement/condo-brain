@@ -25677,16 +25677,15 @@ var UserManager = /** @class */ (function () {
     }
     UserManager.prototype.login = function (email) {
         return __awaiter(this, void 0, void 0, function () {
-            var loginEmail;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios_1.default.post('/api/authentication/login', { email: email }).then(function (result) { return result.data; })];
-                    case 1:
-                        loginEmail = _a.sent();
-                        this.authKey = undefined;
-                        this.loggedIn = false;
-                        return [2 /*return*/, loginEmail];
-                }
+                this.authKey = undefined;
+                this.loggedIn = false;
+                return [2 /*return*/, axios_1.default.post('/api/authentication/login', { email: email }).then(function (result) {
+                        if (result.data.error === 'invalid_email') {
+                            return false;
+                        }
+                        return true;
+                    })];
             });
         });
     };

@@ -17,6 +17,7 @@ export interface User {
     name: string;
     unit: number;
     admin: boolean;
+    active: boolean;
     email: string;
 }
 export interface Question {

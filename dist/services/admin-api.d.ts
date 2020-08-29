@@ -6,10 +6,12 @@ export interface AdminApi {
     deleteQuestion(id: number): Promise<boolean>;
     getAmenities(): Promise<Amenity[]>;
     createAmenity(formData: FormData): Promise<boolean>;
+    editAmenity(formData: FormData, id: number): Promise<boolean>;
     deleteAmenity(id: number): Promise<boolean>;
     getReservations(): Promise<Reservation[]>;
     getParkingRegistrations(): Promise<ParkingRegistration[]>;
     createAmenityQuestion(formData: FormData): Promise<boolean>;
+    editQuestion(formData: FormData, id: number): Promise<boolean>;
     deleteAmenityQuestion(formData: FormData): Promise<boolean>;
 }
 export interface User {

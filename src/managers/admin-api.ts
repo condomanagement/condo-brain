@@ -67,6 +67,18 @@ export class AdminManager implements AdminApi {
     return addResult;
   }
 
+  public async editQuestion(formData: FormData, id: number): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const editResult: boolean = await axios.patch(`/api/questions/update/${id}`, formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return editResult;
+  }
+
   public async createAmenityQuestion(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
       return Promise.reject(Error('Not authorized'));
@@ -117,6 +129,18 @@ export class AdminManager implements AdminApi {
     }
 
     const addResult: boolean = await axios.post('/api/resources/create', formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return addResult;
+  }
+
+  public async editAmenity(formData: FormData, id: number): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const addResult: boolean = await axios.patch(`/api/resources/update/${id}`, formData)
       .then((_result) => (true))
       .catch((_error) => (false));
 

@@ -25606,6 +25606,44 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.createUser = function (formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.post('/api/users/create', formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        addResult = _a.sent();
+                        return [2 /*return*/, addResult];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.editUser = function (formData, id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var editResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.patch("/api/users/update/" + id, formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        editResult = _a.sent();
+                        return [2 /*return*/, editResult];
+                }
+            });
+        });
+    };
     return AdminManager;
 }());
 exports.AdminManager = AdminManager;

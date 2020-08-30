@@ -16,6 +16,8 @@ export declare class AdminManager implements AdminApi {
     editAmenity(formData: FormData, id: number): Promise<boolean>;
     deleteAmenity(id: number): Promise<boolean>;
     upload(formData: FormData): Promise<boolean>;
+    createUser(formData: FormData): Promise<boolean>;
+    editUser(formData: FormData, id: number): Promise<boolean>;
 }
 export default AdminManager;
 //# sourceMappingURL=admin-api.d.ts.map

@@ -25433,6 +25433,25 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.editQuestion = function (formData, id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var editResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.patch("/api/questions/update/" + id, formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        editResult = _a.sent();
+                        return [2 /*return*/, editResult];
+                }
+            });
+        });
+    };
     AdminManager.prototype.createAmenityQuestion = function (formData) {
         return __awaiter(this, void 0, void 0, function () {
             var addResult;
@@ -25517,6 +25536,25 @@ var AdminManager = /** @class */ (function () {
                             return [2 /*return*/, Promise.reject(Error('Not authorized'))];
                         }
                         return [4 /*yield*/, axios_1.default.post('/api/resources/create', formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        addResult = _a.sent();
+                        return [2 /*return*/, addResult];
+                }
+            });
+        });
+    };
+    AdminManager.prototype.editAmenity = function (formData, id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var addResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.patch("/api/resources/update/" + id, formData)
                                 .then(function (_result) { return (true); })
                                 .catch(function (_error) { return (false); })];
                     case 1:

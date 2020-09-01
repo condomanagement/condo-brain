@@ -19,6 +19,8 @@ export class UserManager implements UserApi {
 
   public isAdmin: boolean;
 
+  public isParkingAdmin: boolean;
+
   public authKey: string | undefined;
 
   public md5Email: string | undefined;
@@ -28,6 +30,7 @@ export class UserManager implements UserApi {
   constructor() {
     this.loggedIn = false;
     this.isAdmin = false;
+    this.isParkingAdmin = false;
     this.md5Email = undefined;
     this.fullname = undefined;
     if (getCookie('token')) {
@@ -92,6 +95,7 @@ export class UserManager implements UserApi {
         this.fullname = result.data.user.name;
         this.md5Email = String(Md5.hashStr(result.data.user.email));
         this.isAdmin = result.data.user.admin;
+        this.isParkingAdmin = result.data.user.parkingAdmin;
       }
       return success;
     });

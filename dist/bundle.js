@@ -25701,6 +25701,7 @@ var UserManager = /** @class */ (function () {
     function UserManager() {
         this.loggedIn = false;
         this.isAdmin = false;
+        this.isParkingAdmin = false;
         this.md5Email = undefined;
         this.fullname = undefined;
         if (es_cookie_1.get('token')) {
@@ -25779,6 +25780,7 @@ var UserManager = /** @class */ (function () {
                             _this.fullname = result.data.user.name;
                             _this.md5Email = String(ts_md5_1.Md5.hashStr(result.data.user.email));
                             _this.isAdmin = result.data.user.admin;
+                            _this.isParkingAdmin = result.data.user.parkingAdmin;
                         }
                         return success;
                     })];

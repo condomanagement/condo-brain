@@ -3,6 +3,7 @@ import { Amenity, Question } from '../services/admin-api';
 export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
+    isParkingAdmin: boolean;
     authKey: string | undefined;
     md5Email: string | undefined;
     fullname: string | undefined;

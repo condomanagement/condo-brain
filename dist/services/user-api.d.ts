@@ -3,6 +3,7 @@ export interface UserApi {
     authKey: string | undefined;
     loggedIn: boolean;
     isAdmin: boolean;
+    isParkingAdmin: boolean;
     md5Email: string | undefined;
     fullname: string | undefined;
     login(email: string): Promise<boolean>;

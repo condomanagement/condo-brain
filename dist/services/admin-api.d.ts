@@ -1,6 +1,8 @@
 export interface AdminApi {
     getUsers(): Promise<User[]>;
     upload(formData: FormData): Promise<boolean>;
+    createUser(formData: FormData): Promise<boolean>;
+    editUser(formData: FormData, id: number): Promise<boolean>;
     getQuestions(): Promise<Question[]>;
     createQuestion(formData: FormData): Promise<boolean>;
     deleteQuestion(id: number): Promise<boolean>;
@@ -15,12 +17,13 @@ export interface AdminApi {
     deleteAmenityQuestion(formData: FormData): Promise<boolean>;
 }
 export interface User {
-    id: number;
+    id?: number;
     name: string;
-    unit: number;
+    unit?: number;
     admin: boolean;
     active: boolean;
-    email: string;
+    email?: string;
+    phone?: string;
 }
 export interface Question {
     id: number;

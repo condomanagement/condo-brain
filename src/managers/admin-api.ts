@@ -177,5 +177,29 @@ export class AdminManager implements AdminApi {
       .catch((_error) => (false));
     return uploadResult;
   }
+
+  public async createUser(formData: FormData): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const addResult: boolean = await axios.post('/api/users/create', formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return addResult;
+  }
+
+  public async editUser(formData: FormData, id: number): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const editResult: boolean = await axios.patch(`/api/users/update/${id}`, formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return editResult;
+  }
 }
 export default AdminManager;

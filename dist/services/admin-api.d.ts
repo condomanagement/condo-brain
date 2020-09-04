@@ -22,6 +22,7 @@ export interface User {
     unit?: number;
     admin: boolean;
     active: boolean;
+    parkingAdmin: boolean;
     email?: string;
     phone?: string;
 }

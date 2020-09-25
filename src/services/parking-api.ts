@@ -1,9 +1,5 @@
 import { GenericResponse } from './common';
 
-export interface ParkingApi {
-  saveParking(registration: ParkingRegistration): GenericResponse;
-}
-
 export interface ParkingRegistration {
   id?: number;
   code: string;
@@ -17,3 +13,8 @@ export interface ParkingRegistration {
   createdAt?: string;
   userId?: string;
 }
+
+export interface ParkingApi {
+  saveParking(registration: ParkingRegistration): GenericResponse;
+}
+

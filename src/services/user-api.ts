@@ -1,5 +1,23 @@
 import { Amenity, Question } from './admin-api';
 
+export interface GenericResponse {
+  success: boolean;
+  error?: string;
+}
+
+export interface ReservationTime {
+  id: number;
+  startTime: Date;
+  endTime: Date;
+}
+
+export interface MyReservation {
+  id: number;
+  amenity: string;
+  startTime: Date;
+  endTime: Date;
+}
+
 export interface UserApi {
   authKey: string | undefined;
   loggedIn: boolean;
@@ -18,22 +36,6 @@ export interface UserApi {
   findReservations(date: Date, amenity: number): Promise<ReservationTime[]>
   getMyReservations(): Promise<MyReservation[]>
   deleteMyReservation(id: number): Promise<boolean>
-}
-
-export interface GenericResponse {
-  success: boolean;
-  error?: string;
-}
-
-export interface ReservationTime {
-  id: number;
-  startTime: Date;
-  endTime: Date;
-}
-
-export interface MyReservation {
-  id: number;
-  amenity: string;
-  startTime: Date;
-  endTime: Date;
+  createElevatorBooking(formData: FormData): Promise<GenericResponse>
+  deleteMyElevatorBooking(id: number): Promise<boolean>
 }

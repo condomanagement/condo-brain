@@ -3,6 +3,7 @@ module.exports = {
     performance: 'readonly',
     __DEV__: 'readonly',
     fetch: false,
+    FormData: true,
   },
   root: true,
   env: { 'jest/globals': true },
@@ -47,6 +48,10 @@ module.exports = {
     'max-len': ['error', { code: 120 }],
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
     indent: ['error', 2],
     'sort-imports': ['error', {
       ignoreCase: false,

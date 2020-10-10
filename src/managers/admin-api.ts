@@ -2,6 +2,7 @@ import axios from 'axios';
 import {
   AdminApi,
   Amenity,
+  ElevatorBooking,
   ParkingRegistration,
   Question,
   Reservation,
@@ -41,6 +42,30 @@ export class AdminManager implements AdminApi {
     ));
 
     return reservations;
+  }
+
+  public async getElevatorBookings(): Promise<ElevatorBooking[]> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const bookings: ElevatorBooking[] = await axios.get('/api/elevator_bookings').then((result) => (
+      result.data
+    ));
+
+    return bookings;
+  }
+
+  public async deleteElevatorBooking(id: number): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const deleteResult: boolean = await axios.delete(`/api/elevator_bookings/destroy/${id}`)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return deleteResult;
   }
 
   public async getParkingRegistrations(when = 'today'): Promise<ParkingRegistration[]> {

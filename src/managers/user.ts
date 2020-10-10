@@ -77,7 +77,7 @@ export class UserManager implements UserApi {
         this.authKey = result.data.token;
         if (this.authKey) {
           this.loggedIn = true;
-          setCookie('token', this.authKey, { expires: 10 });
+          setCookie('token', this.authKey, { expires: 100 });
         }
         return true;
       }
@@ -111,6 +111,29 @@ export class UserManager implements UserApi {
         ({ success: false, error: error.response.data.error })
       ));
     return addReservation;
+  }
+
+  public async createElevatorBooking(formData: FormData): Promise<GenericResponse> {
+    const addBooking: GenericResponse = await axios.post('/api/elevator_bookings/create', formData)
+      .then((_result) => {
+        this.loggedIn = true;
+        return ({ success: true });
+      })
+      .catch((error) => (
+        ({ success: false, error: error.response.data.error })
+      ));
+    return addBooking;
+  }
+
+  public async deleteMyElevatorBooking(id: number): Promise<boolean> {
+    if (this.loggedIn) {
+      this.loggedIn = true;
+    }
+    const deleteResult: boolean = await axios.delete(`/api/elevator_bookings/destroy/${id}`)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return deleteResult;
   }
 
   public async getQuestions(): Promise<Question[]> {

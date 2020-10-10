@@ -13,6 +13,8 @@ export declare class UserManager implements UserApi {
     processLogin(emailKey: string): Promise<boolean | string>;
     validateToken(token: string): Promise<boolean>;
     createReservation(formData: FormData): Promise<GenericResponse>;
+    createElevatorBooking(formData: FormData): Promise<GenericResponse>;
+    deleteMyElevatorBooking(id: number): Promise<boolean>;
     getQuestions(): Promise<Question[]>;
     getAmenities(): Promise<Amenity[]>;
     findReservations(date: Date, amenity: number): Promise<ReservationTime[]>;

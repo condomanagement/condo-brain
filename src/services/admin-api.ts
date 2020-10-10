@@ -1,3 +1,9 @@
+export enum UserType {
+  Owner = 'owner',
+  Tenant = 'tenant',
+  None = 'none',
+}
+
 export interface User {
   id?: number;
   name: string;
@@ -7,6 +13,7 @@ export interface User {
   parkingAdmin: boolean;
   email?: string;
   phone?: string;
+  type: UserType;
 }
 
 export interface Amenity {

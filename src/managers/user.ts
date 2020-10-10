@@ -77,7 +77,7 @@ export class UserManager implements UserApi {
         this.authKey = result.data.token;
         if (this.authKey) {
           this.loggedIn = true;
-          setCookie('token', this.authKey, { expires: 10 });
+          setCookie('token', this.authKey, { expires: 100 });
         }
         return true;
       }

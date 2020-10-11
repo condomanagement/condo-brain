@@ -27,12 +27,19 @@ export class UserManager implements UserApi {
 
   public fullname: string | undefined;
 
+  public unit: number | undefined;
+
+  public email: string | undefined;
+
+  public phone: string | undefined;
+
   constructor() {
     this.loggedIn = false;
     this.isAdmin = false;
     this.isParkingAdmin = false;
     this.md5Email = undefined;
     this.fullname = undefined;
+    this.unit = undefined;
     if (getCookie('token')) {
       this.authKey = getCookie('token');
       if (this.authKey) {
@@ -96,6 +103,9 @@ export class UserManager implements UserApi {
         this.md5Email = String(Md5.hashStr(result.data.user.email));
         this.isAdmin = result.data.user.admin;
         this.isParkingAdmin = result.data.user.parkingAdmin;
+        this.unit = result.data.user.unit;
+        this.phone = result.data.user.phone;
+        this.email = result.data.user.email;
       }
       return success;
     });
@@ -120,7 +130,7 @@ export class UserManager implements UserApi {
         return ({ success: true });
       })
       .catch((error) => (
-        ({ success: false, error: error.response.data.error })
+        ({ success: false, error: error.response.data })
       ));
     return addBooking;
   }

@@ -26189,6 +26189,25 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.approveElevatorBooking = function (id, formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var approveResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.patch("/api/elevator_bookings/approve/" + id, formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        approveResult = _a.sent();
+                        return [2 /*return*/, approveResult];
+                }
+            });
+        });
+    };
     AdminManager.prototype.getParkingRegistrations = function (when) {
         if (when === void 0) { when = 'today'; }
         return __awaiter(this, void 0, void 0, function () {
@@ -26535,6 +26554,7 @@ var UserManager = /** @class */ (function () {
         this.isParkingAdmin = false;
         this.md5Email = undefined;
         this.fullname = undefined;
+        this.unit = undefined;
         if (es_cookie_1.get('token')) {
             this.authKey = es_cookie_1.get('token');
             if (this.authKey) {
@@ -26589,7 +26609,7 @@ var UserManager = /** @class */ (function () {
                             _this.authKey = result.data.token;
                             if (_this.authKey) {
                                 _this.loggedIn = true;
-                                es_cookie_1.set('token', _this.authKey, { expires: 10 });
+                                es_cookie_1.set('token', _this.authKey, { expires: 100 });
                             }
                             return true;
                         }
@@ -26612,6 +26632,9 @@ var UserManager = /** @class */ (function () {
                             _this.md5Email = String(ts_md5_1.Md5.hashStr(result.data.user.email));
                             _this.isAdmin = result.data.user.admin;
                             _this.isParkingAdmin = result.data.user.parkingAdmin;
+                            _this.unit = result.data.user.unit;
+                            _this.phone = result.data.user.phone;
+                            _this.email = result.data.user.email;
                         }
                         return success;
                     })];
@@ -26648,7 +26671,7 @@ var UserManager = /** @class */ (function () {
                             _this.loggedIn = true;
                             return ({ success: true });
                         })
-                            .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                            .catch(function (error) { return (({ success: false, error: error.response.data })); })];
                     case 1:
                         addBooking = _a.sent();
                         return [2 /*return*/, addBooking];

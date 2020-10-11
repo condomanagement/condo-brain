@@ -61,8 +61,13 @@ export interface ElevatorBooking {
   phoneDay: string;
   phoneNight: string
   deposit: number;
-  moveType: string;
+  moveType: number;
+  moveIn: boolean;
+  moveOut: boolean;
+  approved: boolean;
+  user: User;
 }
+
 export interface AdminApi {
   getUsers(): Promise<User[]>;
   upload(formData: FormData): Promise<boolean>
@@ -82,4 +87,5 @@ export interface AdminApi {
   deleteAmenityQuestion(formData: FormData): Promise<boolean>
   getElevatorBookings(): Promise<ElevatorBooking[]>
   deleteElevatorBooking(id: number): Promise<boolean>
+  approveElevatorBooking(id: number, formData: FormData): Promise<boolean>
 }

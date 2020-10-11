@@ -26189,6 +26189,25 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
+    AdminManager.prototype.approveElevatorBooking = function (id, formData) {
+        return __awaiter(this, void 0, void 0, function () {
+            var approveResult;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this._isAdmin) {
+                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                        }
+                        return [4 /*yield*/, axios_1.default.patch("/api/elevator_bookings/approve/" + id, formData)
+                                .then(function (_result) { return (true); })
+                                .catch(function (_error) { return (false); })];
+                    case 1:
+                        approveResult = _a.sent();
+                        return [2 /*return*/, approveResult];
+                }
+            });
+        });
+    };
     AdminManager.prototype.getParkingRegistrations = function (when) {
         if (when === void 0) { when = 'today'; }
         return __awaiter(this, void 0, void 0, function () {

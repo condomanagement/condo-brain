@@ -1,4 +1,4 @@
-import { Amenity, Question } from './admin-api';
+import { Amenity, Question, UserType } from './admin-api';
 export interface GenericResponse {
     success: boolean;
     error?: string;
@@ -21,6 +21,7 @@ export interface UserApi {
     isParkingAdmin: boolean;
     md5Email: string | undefined;
     fullname: string | undefined;
+    userType: UserType;
     login(email: string): Promise<boolean>;
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;

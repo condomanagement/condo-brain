@@ -1,5 +1,5 @@
 import { GenericResponse, MyReservation, ReservationTime, UserApi } from '../services/user-api';
-import { Amenity, Question } from '../services/admin-api';
+import { Amenity, Question, UserType } from '../services/admin-api';
 export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
@@ -10,6 +10,7 @@ export declare class UserManager implements UserApi {
     unit: number | undefined;
     email: string | undefined;
     phone: string | undefined;
+    userType: UserType;
     constructor();
     login(email: string): Promise<boolean>;
     logout(authKey: string): Promise<boolean>;

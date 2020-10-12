@@ -26547,6 +26547,7 @@ var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/a
 var moment_1 = __importDefault(__webpack_require__(/*! moment */ "./node_modules/moment/moment.js"));
 var ts_md5_1 = __webpack_require__(/*! ts-md5 */ "./node_modules/ts-md5/dist/md5.js");
 var es_cookie_1 = __webpack_require__(/*! es-cookie */ "./node_modules/es-cookie/src/es-cookie.js");
+var admin_api_1 = __webpack_require__(/*! ../services/admin-api */ "./src/services/admin-api.ts");
 var UserManager = /** @class */ (function () {
     function UserManager() {
         this.loggedIn = false;
@@ -26555,6 +26556,7 @@ var UserManager = /** @class */ (function () {
         this.md5Email = undefined;
         this.fullname = undefined;
         this.unit = undefined;
+        this.userType = admin_api_1.UserType.None;
         if (es_cookie_1.get('token')) {
             this.authKey = es_cookie_1.get('token');
             if (this.authKey) {
@@ -26635,6 +26637,7 @@ var UserManager = /** @class */ (function () {
                             _this.unit = result.data.user.unit;
                             _this.phone = result.data.user.phone;
                             _this.email = result.data.user.email;
+                            _this.userType = result.data.user.type;
                         }
                         return success;
                     })];

@@ -135,7 +135,7 @@ export class UserManager implements UserApi {
         return ({ success: true });
       })
       .catch((error) => (
-        ({ success: false, error: error.response.data })
+        ({ success: false, error: error.response.data.error })
       ));
     return addBooking;
   }

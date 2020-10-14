@@ -12,7 +12,7 @@ import {
   ReservationTime,
   UserApi,
 } from '../services/user-api';
-import { Amenity, Question } from '../services/admin-api';
+import { Amenity, Question, UserType } from '../services/admin-api';
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -33,6 +33,8 @@ export class UserManager implements UserApi {
 
   public phone: string | undefined;
 
+  public userType: UserType;
+
   constructor() {
     this.loggedIn = false;
     this.isAdmin = false;
@@ -40,6 +42,8 @@ export class UserManager implements UserApi {
     this.md5Email = undefined;
     this.fullname = undefined;
     this.unit = undefined;
+    this.userType = UserType.None;
+
     if (getCookie('token')) {
       this.authKey = getCookie('token');
       if (this.authKey) {
@@ -106,6 +110,7 @@ export class UserManager implements UserApi {
         this.unit = result.data.user.unit;
         this.phone = result.data.user.phone;
         this.email = result.data.user.email;
+        this.userType = result.data.user.type;
       }
       return success;
     });
@@ -130,7 +135,7 @@ export class UserManager implements UserApi {
         return ({ success: true });
       })
       .catch((error) => (
-        ({ success: false, error: error.response.data })
+        ({ success: false, error: error.response.data.error })
       ));
     return addBooking;
   }

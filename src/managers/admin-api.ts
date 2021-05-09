@@ -80,6 +80,18 @@ export class AdminManager implements AdminApi {
     return approveResult;
   }
 
+  public async rejectElevatorBooking(id: number, formData: FormData): Promise<boolean> {
+    if (!this._isAdmin) {
+      return Promise.reject(Error('Not authorized'));
+    }
+
+    const approveResult: boolean = await axios.patch(`/api/elevator_bookings/reject/${id}`, formData)
+      .then((_result) => (true))
+      .catch((_error) => (false));
+
+    return approveResult;
+  }
+
   public async getParkingRegistrations(when = 'today'): Promise<ParkingRegistration[]> {
     if (!this._isAdmin) {
       return Promise.reject(Error('Not authorized'));

@@ -4,6 +4,12 @@ export enum UserType {
   None = 'none',
 }
 
+export enum BookingStatus {
+  Pending = 'pending',
+  Approved = 'true',
+  Rejected = 'false',
+}
+
 export interface User {
   id?: number;
   name: string;
@@ -66,6 +72,8 @@ export interface ElevatorBooking {
   moveOut: boolean;
   approved: boolean;
   user: User;
+  status: BookingStatus;
+  rejection: string;
 }
 
 export interface AdminApi {
@@ -88,4 +96,5 @@ export interface AdminApi {
   getElevatorBookings(): Promise<ElevatorBooking[]>
   deleteElevatorBooking(id: number): Promise<boolean>
   approveElevatorBooking(id: number, formData: FormData): Promise<boolean>
+  rejectElevatorBooking(id: number, formData: FormData): Promise<boolean>
 }

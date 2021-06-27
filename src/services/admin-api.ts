@@ -27,6 +27,7 @@ export interface Amenity {
   name: string;
   timeLimit: number;
   questions: Question[];
+  visible: boolean;
 }
 
 export interface Question {

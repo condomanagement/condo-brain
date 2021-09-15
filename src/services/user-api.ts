@@ -23,6 +23,7 @@ export interface UserApi {
   loggedIn: boolean;
   isAdmin: boolean;
   isParkingAdmin: boolean;
+  isVaccinated: boolean;
   md5Email: string | undefined;
   fullname: string | undefined;
   userType: UserType;

@@ -4,6 +4,7 @@ export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
     isParkingAdmin: boolean;
+    isVaccinated: boolean;
     authKey: string | undefined;
     md5Email: string | undefined;
     fullname: string | undefined;

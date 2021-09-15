@@ -17,6 +17,7 @@ export interface User {
   admin: boolean;
   active: boolean;
   parkingAdmin: boolean;
+  vaccinated: boolean;
   email?: string;
   phone?: string;
   type: UserType;

@@ -21,6 +21,8 @@ export class UserManager implements UserApi {
 
   public isParkingAdmin: boolean;
 
+  public isVaccinated: boolean;
+
   public authKey: string | undefined;
 
   public md5Email: string | undefined;
@@ -39,6 +41,7 @@ export class UserManager implements UserApi {
     this.loggedIn = false;
     this.isAdmin = false;
     this.isParkingAdmin = false;
+    this.isVaccinated = false;
     this.md5Email = undefined;
     this.fullname = undefined;
     this.unit = undefined;
@@ -107,6 +110,7 @@ export class UserManager implements UserApi {
         this.md5Email = String(Md5.hashStr(result.data.user.email));
         this.isAdmin = result.data.user.admin;
         this.isParkingAdmin = result.data.user.parkingAdmin;
+        this.isVaccinated = result.data.user.vaccinated;
         this.unit = result.data.user.unit;
         this.phone = result.data.user.phone;
         this.email = result.data.user.email;

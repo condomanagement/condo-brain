@@ -26,6 +26,7 @@ export interface Amenity {
     timeLimit: number;
     questions: Question[];
     visible: boolean;
+    vaccine: boolean;
 }
 export interface Question {
     id: number;

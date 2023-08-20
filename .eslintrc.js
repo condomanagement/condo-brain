@@ -14,9 +14,6 @@ module.exports = {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
-    react: {
-      version: '9999999999999999',
-    },
     'import/resolver': {
       webpack: {},
       node: {

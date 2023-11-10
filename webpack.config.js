@@ -7,7 +7,6 @@ module.exports = {
   },
   devtool: 'source-map',
   mode: 'production',
-  target: 'web',
   module: {
     rules: [
       {

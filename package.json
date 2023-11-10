@@ -2,8 +2,6 @@
   "name": "condo-brain",
   "version": "0.1.0",
   "description": "Common interface for condo apps",
-  "main": "dist/bundle.js",
-  "type": "commonjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "test": "npx jest --coverage",

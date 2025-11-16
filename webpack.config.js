@@ -11,12 +11,19 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            compilerOptions: {
+              module: 'esnext',
+            },
+          },
+        },
         exclude: /node_modules/,
       },
       {
         test: /\.m?js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /bower_components|ts-md5/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -28,6 +35,7 @@ module.exports = {
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    mainFields: ['module', 'main'],
   },
   output: {
     filename: 'bundle.js',
@@ -39,5 +47,8 @@ module.exports = {
   },
   optimization: {
     minimize: false,
+  },
+  node: {
+    global: true,
   },
 };

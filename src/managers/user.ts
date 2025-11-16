@@ -56,7 +56,7 @@ export class UserManager implements UserApi {
     if (getCookie("token")) {
       this.authKey = getCookie("token");
       if (this.authKey) {
-        this.validateAuthKey(this.authKey);
+        void this.validateAuthKey(this.authKey);
       }
     } else {
       this.authKey = undefined;
@@ -94,7 +94,9 @@ export class UserManager implements UserApi {
 
   public async processLogin(emailKey: string): Promise<boolean | string> {
     return axios
-      .post<ProcessLoginResponse>("/api/authentication/process_login", { emailKey })
+      .post<ProcessLoginResponse>("/api/authentication/process_login", {
+        emailKey,
+      })
       .then((result: AxiosResponse<ProcessLoginResponse>) => {
         if (result.data.success === false) {
           return false;
@@ -128,10 +130,10 @@ export class UserManager implements UserApi {
           this.unit = result.data.user.unit;
           this.phone = result.data.user.phone;
           this.email = result.data.user.email;
-        this.userType = result.data.user.type;
-      }
-      return success;
-    });
+          this.userType = result.data.user.type;
+        }
+        return success;
+      });
   }
 
   public async createReservation(formData: FormData): Promise<GenericResponse> {
@@ -210,7 +212,10 @@ export class UserManager implements UserApi {
       })
       .catch((error: { response?: { data?: { error?: string } } }) => {
         // Return empty array on error since return type must match
-        console.error("Error finding reservations:", error.response?.data?.error);
+        console.error(
+          "Error finding reservations:",
+          error.response?.data?.error,
+        );
         return [] as ReservationTime[];
       });
     return findReservation;
@@ -260,8 +265,14 @@ export class UserManager implements UserApi {
 
   private async validateAuthKey(authKey: string): Promise<void> {
     const valid = await axios
-      .post<{ valid: boolean; authKey?: string }>("/api/authentication/valid", { token: authKey })
-      .then((result: AxiosResponse<{ valid: boolean; authKey?: string }>) => result.data);
+      .post<{
+        valid: boolean;
+        authKey?: string;
+      }>("/api/authentication/valid", { token: authKey })
+      .then(
+        (result: AxiosResponse<{ valid: boolean; authKey?: string }>) =>
+          result.data,
+      );
     if (valid.valid) {
       this.loggedIn = true;
       this.authKey = valid.authKey;

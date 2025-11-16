@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
   AdminApi,
   Amenity,
@@ -21,8 +21,8 @@ export class AdminManager implements AdminApi {
       return [];
     }
     const users: User[] = await axios
-      .get("/api/users")
-      .then((result) => result.data);
+      .get<User[]>("/api/users")
+      .then((result: AxiosResponse<User[]>) => result.data);
     return users;
   }
 
@@ -31,8 +31,8 @@ export class AdminManager implements AdminApi {
       return [];
     }
     const questions: Question[] = await axios
-      .get("/api/questions")
-      .then((result) => result.data);
+      .get<Question[]>("/api/questions")
+      .then((result: AxiosResponse<Question[]>) => result.data);
     return questions;
   }
 
@@ -42,8 +42,8 @@ export class AdminManager implements AdminApi {
     }
 
     const reservations: Reservation[] = await axios
-      .get("/api/reservations")
-      .then((result) => result.data);
+      .get<Reservation[]>("/api/reservations")
+      .then((result: AxiosResponse<Reservation[]>) => result.data);
 
     return reservations;
   }
@@ -54,8 +54,8 @@ export class AdminManager implements AdminApi {
     }
 
     const bookings: ElevatorBooking[] = await axios
-      .get("/api/elevator_bookings")
-      .then((result) => result.data);
+      .get<ElevatorBooking[]>("/api/elevator_bookings")
+      .then((result: AxiosResponse<ElevatorBooking[]>) => result.data);
 
     return bookings;
   }
@@ -113,8 +113,8 @@ export class AdminManager implements AdminApi {
     }
 
     const registration: ParkingRegistration[] = await axios
-      .get(`/api/parking/${when}`)
-      .then((result) => result.data);
+      .get<ParkingRegistration[]>(`/api/parking/${when}`)
+      .then((result: AxiosResponse<ParkingRegistration[]>) => result.data);
 
     return registration;
   }
@@ -189,8 +189,8 @@ export class AdminManager implements AdminApi {
       return [];
     }
     const amenities: Amenity[] = await axios
-      .get("/api/resources")
-      .then((result) => result.data);
+      .get<Amenity[]>("/api/resources")
+      .then((result: AxiosResponse<Amenity[]>) => result.data);
     return amenities;
   }
 

@@ -22,7 +22,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['**/*.test.ts', '**/*.test.tsx'],
+    files: ['**/*.test.ts', '**/*.test.tsx', '**/__tests__/**/*.ts', '**/__tests__/**/*.tsx'],
     plugins: {
       jest,
     },
@@ -37,6 +37,7 @@ export default tseslint.config(
       'jest/no-identical-title': 'error',
       'jest/prefer-to-have-length': 'warn',
       'jest/valid-expect': 'error',
+      '@typescript-eslint/unbound-method': 'off',
     },
   },
   {

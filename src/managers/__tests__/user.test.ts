@@ -9,7 +9,6 @@ jest.mock("es-cookie");
 
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 const mockGetCookie = esCookie.get as jest.MockedFunction<typeof esCookie.get>;
-const mockSetCookie = esCookie.set as jest.MockedFunction<typeof esCookie.set>;
 const mockRemoveCookie = esCookie.remove as jest.MockedFunction<
   typeof esCookie.remove
 >;

@@ -1,4 +1,4 @@
-import { AdminApi, Amenity, ElevatorBooking, ParkingRegistration, Question, Reservation, User } from '../services/admin-api';
+import { AdminApi, Amenity, ElevatorBooking, ParkingRegistration, Question, Reservation, User } from "../services/admin-api";
 export declare class AdminManager implements AdminApi {
     private _isAdmin;
     constructor();

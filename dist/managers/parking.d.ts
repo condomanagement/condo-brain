@@ -1,5 +1,5 @@
-import { ParkingApi, ParkingRegistration } from '../services/parking-api';
-import { GenericResponse } from '../services/common';
+import { ParkingApi, ParkingRegistration } from "../services/parking-api";
+import { GenericResponse } from "../services/common";
 export declare class ParkingManager implements ParkingApi {
     private userId;
     saveParking(registration: ParkingRegistration): GenericResponse;

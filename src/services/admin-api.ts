@@ -1,13 +1,13 @@
 export enum UserType {
-  Owner = 'owner',
-  Tenant = 'tenant',
-  None = 'none',
+  Owner = "owner",
+  Tenant = "tenant",
+  None = "none",
 }
 
 export enum BookingStatus {
-  Pending = 'pending',
-  Approved = 'true',
-  Rejected = 'false',
+  Pending = "pending",
+  Approved = "true",
+  Rejected = "false",
 }
 
 export interface User {
@@ -68,7 +68,7 @@ export interface ElevatorBooking {
   name1: string;
   name2: string;
   phoneDay: string;
-  phoneNight: string
+  phoneNight: string;
   deposit: number;
   moveType: number;
   moveIn: boolean;
@@ -81,23 +81,23 @@ export interface ElevatorBooking {
 
 export interface AdminApi {
   getUsers(): Promise<User[]>;
-  upload(formData: FormData): Promise<boolean>
-  createUser(formData: FormData): Promise<boolean>
-  editUser(formData: FormData, id: number): Promise<boolean>
-  getQuestions(): Promise<Question[]>
-  createQuestion(formData: FormData): Promise<boolean>
-  deleteQuestion(id: number): Promise<boolean>
-  getAmenities(): Promise<Amenity[]>
-  createAmenity(formData: FormData): Promise<boolean>
-  editAmenity(formData: FormData, id: number): Promise<boolean>
-  deleteAmenity(id: number): Promise<boolean>
-  getReservations(): Promise<Reservation[]>
-  getParkingRegistrations(): Promise<ParkingRegistration[]>
-  createAmenityQuestion(formData: FormData): Promise<boolean>
-  editQuestion(formData: FormData, id: number): Promise<boolean>
-  deleteAmenityQuestion(formData: FormData): Promise<boolean>
-  getElevatorBookings(): Promise<ElevatorBooking[]>
-  deleteElevatorBooking(id: number): Promise<boolean>
-  approveElevatorBooking(id: number, formData: FormData): Promise<boolean>
-  rejectElevatorBooking(id: number, formData: FormData): Promise<boolean>
+  upload(formData: FormData): Promise<boolean>;
+  createUser(formData: FormData): Promise<boolean>;
+  editUser(formData: FormData, id: number): Promise<boolean>;
+  getQuestions(): Promise<Question[]>;
+  createQuestion(formData: FormData): Promise<boolean>;
+  deleteQuestion(id: number): Promise<boolean>;
+  getAmenities(): Promise<Amenity[]>;
+  createAmenity(formData: FormData): Promise<boolean>;
+  editAmenity(formData: FormData, id: number): Promise<boolean>;
+  deleteAmenity(id: number): Promise<boolean>;
+  getReservations(): Promise<Reservation[]>;
+  getParkingRegistrations(): Promise<ParkingRegistration[]>;
+  createAmenityQuestion(formData: FormData): Promise<boolean>;
+  editQuestion(formData: FormData, id: number): Promise<boolean>;
+  deleteAmenityQuestion(formData: FormData): Promise<boolean>;
+  getElevatorBookings(): Promise<ElevatorBooking[]>;
+  deleteElevatorBooking(id: number): Promise<boolean>;
+  approveElevatorBooking(id: number, formData: FormData): Promise<boolean>;
+  rejectElevatorBooking(id: number, formData: FormData): Promise<boolean>;
 }

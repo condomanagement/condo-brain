@@ -1,4 +1,4 @@
-import { Amenity, Question, UserType } from './admin-api';
+import { Amenity, Question, UserType } from "./admin-api";
 export interface GenericResponse {
     success: boolean;
     error?: string;

@@ -1,18 +1,24 @@
-import axios from 'axios';
-import moment from 'moment';
-import { Md5 } from 'ts-md5';
+import axios, { AxiosResponse } from "axios";
+import moment from "moment";
+import { Md5 } from "ts-md5";
 import {
   get as getCookie,
   remove as removeCookie,
   set as setCookie,
-} from 'es-cookie';
+} from "es-cookie";
 import {
   GenericResponse,
   MyReservation,
   ReservationTime,
   UserApi,
-} from '../services/user-api';
-import { Amenity, Question, UserType } from '../services/admin-api';
+} from "../services/user-api";
+import { Amenity, Question, UserType } from "../services/admin-api";
+import {
+  LoginResponse,
+  LogoutResponse,
+  ProcessLoginResponse,
+  ValidateTokenResponse,
+} from "../types/api-responses";
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -47,10 +53,10 @@ export class UserManager implements UserApi {
     this.unit = undefined;
     this.userType = UserType.None;
 
-    if (getCookie('token')) {
-      this.authKey = getCookie('token');
+    if (getCookie("token")) {
+      this.authKey = getCookie("token");
       if (this.authKey) {
-        this.validateAuthKey(this.authKey);
+        void this.validateAuthKey(this.authKey);
       }
     } else {
       this.authKey = undefined;
@@ -60,87 +66,103 @@ export class UserManager implements UserApi {
   public async login(email: string): Promise<boolean> {
     this.authKey = undefined;
     this.loggedIn = false;
-    return axios.post('/api/authentication/login', { email }).then((result) => {
-      if (result.data.error === 'invalid_email') {
-        return false;
-      }
-      return true;
-    });
+    return axios
+      .post<LoginResponse>("/api/authentication/login", { email })
+      .then((result: AxiosResponse<LoginResponse>) => {
+        if (result.data.error === "invalid_email") {
+          return false;
+        }
+        return true;
+      });
   }
 
   public async logout(authKey: string): Promise<boolean> {
     this.authKey = undefined;
     this.loggedIn = false;
-    return axios.post('/api/authentication/logout', { token: authKey }).then((result) => {
-      if (result.data.success === true) {
-        this.loggedIn = false;
-        this.isAdmin = false;
-        removeCookie('token');
-        return true;
-      }
-      return false;
-    });
+    return axios
+      .post<LogoutResponse>("/api/authentication/logout", { token: authKey })
+      .then((result: AxiosResponse<LogoutResponse>) => {
+        if (result.data.success === true) {
+          this.loggedIn = false;
+          this.isAdmin = false;
+          removeCookie("token");
+          return true;
+        }
+        return false;
+      });
   }
 
   public async processLogin(emailKey: string): Promise<boolean | string> {
-    return axios.post('/api/authentication/process_login', { emailKey }).then((result) => {
-      if (result.data.success === false) {
-        return false;
-      }
-      if (result.data.token) {
-        this.authKey = result.data.token;
-        if (this.authKey) {
-          this.loggedIn = true;
-          setCookie('token', this.authKey, { expires: 100 });
+    return axios
+      .post<ProcessLoginResponse>("/api/authentication/process_login", {
+        emailKey,
+      })
+      .then((result: AxiosResponse<ProcessLoginResponse>) => {
+        if (result.data.success === false) {
+          return false;
         }
-        return true;
-      }
-      return false;
-    });
+        if (result.data.token) {
+          this.authKey = result.data.token;
+          if (this.authKey) {
+            this.loggedIn = true;
+            setCookie("token", this.authKey, { expires: 100 });
+          }
+          return true;
+        }
+        return false;
+      });
   }
 
   public async validateToken(token: string): Promise<boolean> {
-    return axios.post('/api/authentication/valid', { token }).then((result) => {
-      let success = false;
-      if (result.data.success === true) {
-        success = true;
-        this.authKey = token;
-        this.loggedIn = true;
-        this.fullname = result.data.user.name;
-        this.md5Email = String(Md5.hashStr(result.data.user.email));
-        this.isAdmin = result.data.user.admin;
-        this.isParkingAdmin = result.data.user.parkingAdmin;
-        this.isVaccinated = result.data.user.vaccinated;
-        this.unit = result.data.user.unit;
-        this.phone = result.data.user.phone;
-        this.email = result.data.user.email;
-        this.userType = result.data.user.type;
-      }
-      return success;
-    });
+    return axios
+      .post<ValidateTokenResponse>("/api/authentication/valid", { token })
+      .then((result: AxiosResponse<ValidateTokenResponse>) => {
+        let success = false;
+        if (result.data.success === true) {
+          success = true;
+          this.authKey = token;
+          this.loggedIn = true;
+          this.fullname = result.data.user.name;
+          this.md5Email = String(Md5.hashStr(result.data.user.email));
+          this.isAdmin = result.data.user.admin;
+          this.isParkingAdmin = result.data.user.parkingAdmin;
+          this.isVaccinated = result.data.user.vaccinated;
+          this.unit = result.data.user.unit;
+          this.phone = result.data.user.phone;
+          this.email = result.data.user.email;
+          this.userType = result.data.user.type;
+        }
+        return success;
+      });
   }
 
   public async createReservation(formData: FormData): Promise<GenericResponse> {
-    const addReservation: GenericResponse = await axios.post('/api/reservations/create', formData)
+    const addReservation: GenericResponse = await axios
+      .post<GenericResponse>("/api/reservations/create", formData)
       .then((_result) => {
         this.loggedIn = true;
-        return ({ success: true });
+        return { success: true };
       })
-      .catch((error) => (
-        ({ success: false, error: error.response.data.error })
-      ));
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addReservation;
   }
 
-  public async createElevatorBooking(formData: FormData): Promise<GenericResponse> {
-    const addBooking: GenericResponse = await axios.post('/api/elevator_bookings/create', formData)
+  public async createElevatorBooking(
+    formData: FormData,
+  ): Promise<GenericResponse> {
+    const addBooking: GenericResponse = await axios
+      .post<GenericResponse>("/api/elevator_bookings/create", formData)
       .then((_result) => {
         this.loggedIn = true;
-        return ({ success: true });
+        return { success: true };
       })
-      .catch((error) => (
-        ({ success: false, error: error.response.data.error })
-      ));
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addBooking;
   }
 
@@ -148,40 +170,50 @@ export class UserManager implements UserApi {
     if (this.loggedIn) {
       this.loggedIn = true;
     }
-    const deleteResult: boolean = await axios.delete(`/api/elevator_bookings/destroy/${id}`)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .delete(`/api/elevator_bookings/destroy/${id}`)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
 
   public async getQuestions(): Promise<Question[]> {
-    this.authKey = getCookie('token');
-    const questions: Question[] = await axios.get('/api/questions').then((result) => result.data);
+    this.authKey = getCookie("token");
+    const questions: Question[] = await axios
+      .get<Question[]>("/api/questions")
+      .then((result: AxiosResponse<Question[]>) => result.data);
     return questions;
   }
 
   public async getAmenities(): Promise<Amenity[]> {
-    this.authKey = getCookie('token');
-    const amenities: Amenity[] = await axios.get('/api/resources').then((result) => result.data);
+    this.authKey = getCookie("token");
+    const amenities: Amenity[] = await axios
+      .get<Amenity[]>("/api/resources")
+      .then((result: AxiosResponse<Amenity[]>) => result.data);
     return amenities;
   }
 
-  public async findReservations(date: Date, amenity: number): Promise<ReservationTime[]> {
-    const startDay = moment(date).startOf('day');
-    const endDay = moment(date).endOf('day');
-    const findReservation = await axios.post('/api/reservations/find_reservations', {
-      startDay,
-      endDay,
-      resource: amenity,
-    })
-      .then((result) => {
+  public async findReservations(
+    date: Date,
+    amenity: number,
+  ): Promise<ReservationTime[]> {
+    const startDay = moment(date).startOf("day");
+    const endDay = moment(date).endOf("day");
+    const findReservation = await axios
+      .post<ReservationTime[]>("/api/reservations/find_reservations", {
+        startDay,
+        endDay,
+        resource: amenity,
+      })
+      .then((result: AxiosResponse<ReservationTime[]>) => {
         this.loggedIn = true;
         return result.data;
       })
-      .catch((error) => (
-        ({ success: false, error: error.response.data.error })
-      ));
+      .catch((error: { response?: { data?: { error?: string } } }) => {
+        // Return empty array on error since return type must match
+        return [] as ReservationTime[];
+      });
     return findReservation;
   }
 
@@ -190,11 +222,13 @@ export class UserManager implements UserApi {
       this.loggedIn = true;
     }
 
-    const addParkingReservation: GenericResponse = await axios.post('/api/parking/create', formData)
-      .then((_result) => (({ success: true })))
-      .catch((error) => (
-        ({ success: false, error: error.response.data.error })
-      ));
+    const addParkingReservation: GenericResponse = await axios
+      .post<GenericResponse>("/api/parking/create", formData)
+      .then((_result) => ({ success: true }))
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addParkingReservation;
   }
 
@@ -203,9 +237,12 @@ export class UserManager implements UserApi {
       this.loggedIn = true;
     }
 
-    const myReservations = await axios.get('/api/reservations/mine')
-      .then((result) => (result.data))
-      .catch((error) => (error));
+    const myReservations = await axios
+      .get<MyReservation[]>("/api/reservations/mine")
+      .then((result: AxiosResponse<MyReservation[]>) => result.data)
+      .catch((error) => {
+        return [] as MyReservation[];
+      });
     return myReservations;
   }
 
@@ -213,17 +250,26 @@ export class UserManager implements UserApi {
     if (this.loggedIn) {
       this.loggedIn = true;
     }
-    const deleteResult: boolean = await axios.delete(`/api/reservations/destroy/${id}`)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .delete(`/api/reservations/destroy/${id}`)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
 
   private async validateAuthKey(authKey: string): Promise<void> {
-    const valid = await axios.post('/api/authentication/valid', { token: authKey }).then((result) => result.data);
+    const valid = await axios
+      .post<{
+        valid: boolean;
+        authKey?: string;
+      }>("/api/authentication/valid", { token: authKey })
+      .then(
+        (result: AxiosResponse<{ valid: boolean; authKey?: string }>) =>
+          result.data,
+      );
     if (valid.valid) {
-      this.loggedIn = valid;
+      this.loggedIn = true;
       this.authKey = valid.authKey;
     } else {
       this.authKey = undefined;

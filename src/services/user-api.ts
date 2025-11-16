@@ -1,4 +1,4 @@
-import { Amenity, Question, UserType } from './admin-api';
+import { Amenity, Question, UserType } from "./admin-api";
 
 export interface GenericResponse {
   success: boolean;
@@ -32,12 +32,12 @@ export interface UserApi {
   processLogin(emailKey: string): Promise<boolean | string>;
   validateToken(token: string): Promise<boolean>;
   createReservation(formData: FormData): Promise<GenericResponse>;
-  getQuestions(): Promise<Question[]>
-  getAmenities(): Promise<Amenity[]>
+  getQuestions(): Promise<Question[]>;
+  getAmenities(): Promise<Amenity[]>;
   visitorParking(formData: FormData): Promise<GenericResponse>;
-  findReservations(date: Date, amenity: number): Promise<ReservationTime[]>
-  getMyReservations(): Promise<MyReservation[]>
-  deleteMyReservation(id: number): Promise<boolean>
-  createElevatorBooking(formData: FormData): Promise<GenericResponse>
-  deleteMyElevatorBooking(id: number): Promise<boolean>
+  findReservations(date: Date, amenity: number): Promise<ReservationTime[]>;
+  getMyReservations(): Promise<MyReservation[]>;
+  deleteMyReservation(id: number): Promise<boolean>;
+  createElevatorBooking(formData: FormData): Promise<GenericResponse>;
+  deleteMyElevatorBooking(id: number): Promise<boolean>;
 }

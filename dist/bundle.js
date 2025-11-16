@@ -26487,7 +26487,7 @@ var UserManager = /** @class */ (function () {
         if ((0, es_cookie_1.get)("token")) {
             this.authKey = (0, es_cookie_1.get)("token");
             if (this.authKey) {
-                this.validateAuthKey(this.authKey);
+                void this.validateAuthKey(this.authKey);
             }
         }
         else {
@@ -26499,7 +26499,9 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.authKey = undefined;
                 this.loggedIn = false;
-                return [2 /*return*/, axios_1.default.post("/api/authentication/login", { email: email }).then(function (result) {
+                return [2 /*return*/, axios_1.default
+                        .post("/api/authentication/login", { email: email })
+                        .then(function (result) {
                         if (result.data.error === "invalid_email") {
                             return false;
                         }
@@ -26533,7 +26535,9 @@ var UserManager = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 return [2 /*return*/, axios_1.default
-                        .post("/api/authentication/process_login", { emailKey: emailKey })
+                        .post("/api/authentication/process_login", {
+                        emailKey: emailKey,
+                    })
                         .then(function (result) {
                         if (result.data.success === false) {
                             return false;
@@ -26555,7 +26559,9 @@ var UserManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, axios_1.default.post("/api/authentication/valid", { token: token }).then(function (result) {
+                return [2 /*return*/, axios_1.default
+                        .post("/api/authentication/valid", { token: token })
+                        .then(function (result) {
                         var success = false;
                         if (result.data.success === true) {
                             success = true;
@@ -26588,7 +26594,13 @@ var UserManager = /** @class */ (function () {
                             _this.loggedIn = true;
                             return { success: true };
                         })
-                            .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
+                            .catch(function (error) {
+                            var _a, _b;
+                            return ({
+                                success: false,
+                                error: (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error,
+                            });
+                        })];
                     case 1:
                         addReservation = _a.sent();
                         return [2 /*return*/, addReservation];
@@ -26608,7 +26620,13 @@ var UserManager = /** @class */ (function () {
                             _this.loggedIn = true;
                             return { success: true };
                         })
-                            .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
+                            .catch(function (error) {
+                            var _a, _b;
+                            return ({
+                                success: false,
+                                error: (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error,
+                            });
+                        })];
                     case 1:
                         addBooking = _a.sent();
                         return [2 /*return*/, addBooking];
@@ -26689,7 +26707,12 @@ var UserManager = /** @class */ (function () {
                                 _this.loggedIn = true;
                                 return result.data;
                             })
-                                .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
+                                .catch(function (error) {
+                                var _a, _b;
+                                // Return empty array on error since return type must match
+                                console.error("Error finding reservations:", (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error);
+                                return [];
+                            })];
                     case 1:
                         findReservation = _a.sent();
                         return [2 /*return*/, findReservation];
@@ -26709,7 +26732,13 @@ var UserManager = /** @class */ (function () {
                         return [4 /*yield*/, axios_1.default
                                 .post("/api/parking/create", formData)
                                 .then(function (_result) { return ({ success: true }); })
-                                .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
+                                .catch(function (error) {
+                                var _a, _b;
+                                return ({
+                                    success: false,
+                                    error: (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error,
+                                });
+                            })];
                     case 1:
                         addParkingReservation = _a.sent();
                         return [2 /*return*/, addParkingReservation];
@@ -26729,7 +26758,10 @@ var UserManager = /** @class */ (function () {
                         return [4 /*yield*/, axios_1.default
                                 .get("/api/reservations/mine")
                                 .then(function (result) { return result.data; })
-                                .catch(function (error) { return error; })];
+                                .catch(function (error) {
+                                console.error("Error getting reservations:", error);
+                                return [];
+                            })];
                     case 1:
                         myReservations = _a.sent();
                         return [2 /*return*/, myReservations];
@@ -26764,11 +26796,13 @@ var UserManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, axios_1.default
                             .post("/api/authentication/valid", { token: authKey })
-                            .then(function (result) { return result.data; })];
+                            .then(function (result) {
+                            return result.data;
+                        })];
                     case 1:
                         valid = _a.sent();
                         if (valid.valid) {
-                            this.loggedIn = valid;
+                            this.loggedIn = true;
                             this.authKey = valid.authKey;
                         }
                         else {

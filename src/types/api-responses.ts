@@ -1,3 +1,5 @@
+import { UserType } from "../services/admin-api";
+
 // API Response Types for User Authentication and Management
 
 export interface LoginResponse {
@@ -22,7 +24,7 @@ export interface UserData {
   vaccinated: boolean;
   unit: number;
   phone: string;
-  type: string;
+  type: UserType;
 }
 
 export interface ValidateTokenResponse {

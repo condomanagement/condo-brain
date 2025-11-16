@@ -1,4 +1,4 @@
-import { GenericResponse } from './common';
+import { GenericResponse } from "./common";
 export interface ParkingRegistration {
     id?: number;
     code: string;

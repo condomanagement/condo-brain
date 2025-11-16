@@ -212,10 +212,6 @@ export class UserManager implements UserApi {
       })
       .catch((error: { response?: { data?: { error?: string } } }) => {
         // Return empty array on error since return type must match
-        console.error(
-          "Error finding reservations:",
-          error.response?.data?.error,
-        );
         return [] as ReservationTime[];
       });
     return findReservation;
@@ -245,7 +241,6 @@ export class UserManager implements UserApi {
       .get<MyReservation[]>("/api/reservations/mine")
       .then((result: AxiosResponse<MyReservation[]>) => result.data)
       .catch((error) => {
-        console.error("Error getting reservations:", error);
         return [] as MyReservation[];
       });
     return myReservations;

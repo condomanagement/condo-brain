@@ -26,6 +26,9 @@
     "url": "https://github.com/djensenius/condo-brain/issues"
   },
   "homepage": "https://github.com/djensenius/condo-brain#readme",
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",

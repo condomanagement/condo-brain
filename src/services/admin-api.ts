@@ -98,7 +98,9 @@ export interface PaginationParams {
 }
 
 export interface AdminApi {
-  getUsers(pagination?: PaginationParams): Promise<User[] | PaginatedResponse<User>>;
+  getUsers(
+    pagination?: PaginationParams,
+  ): Promise<User[] | PaginatedResponse<User>>;
   upload(formData: FormData): Promise<boolean>;
   createUser(formData: FormData): Promise<boolean>;
   editUser(formData: FormData, id: number): Promise<boolean>;
@@ -109,12 +111,19 @@ export interface AdminApi {
   createAmenity(formData: FormData): Promise<boolean>;
   editAmenity(formData: FormData, id: number): Promise<boolean>;
   deleteAmenity(id: number): Promise<boolean>;
-  getReservations(pagination?: PaginationParams): Promise<Reservation[] | PaginatedResponse<Reservation>>;
-  getParkingRegistrations(when?: string, pagination?: PaginationParams): Promise<ParkingRegistration[] | PaginatedResponse<ParkingRegistration>>;
+  getReservations(
+    pagination?: PaginationParams,
+  ): Promise<Reservation[] | PaginatedResponse<Reservation>>;
+  getParkingRegistrations(
+    when?: string,
+    pagination?: PaginationParams,
+  ): Promise<ParkingRegistration[] | PaginatedResponse<ParkingRegistration>>;
   createAmenityQuestion(formData: FormData): Promise<boolean>;
   editQuestion(formData: FormData, id: number): Promise<boolean>;
   deleteAmenityQuestion(formData: FormData): Promise<boolean>;
-  getElevatorBookings(pagination?: PaginationParams): Promise<ElevatorBooking[] | PaginatedResponse<ElevatorBooking>>;
+  getElevatorBookings(
+    pagination?: PaginationParams,
+  ): Promise<ElevatorBooking[] | PaginatedResponse<ElevatorBooking>>;
   deleteElevatorBooking(id: number): Promise<boolean>;
   approveElevatorBooking(id: number, formData: FormData): Promise<boolean>;
   rejectElevatorBooking(id: number, formData: FormData): Promise<boolean>;

@@ -25994,7 +25994,9 @@ var AdminManager = /** @class */ (function () {
                         if (!this._isAdmin) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/users').then(function (result) { return result.data; })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/users")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         users = _a.sent();
                         return [2 /*return*/, users];
@@ -26011,7 +26013,9 @@ var AdminManager = /** @class */ (function () {
                         if (!this._isAdmin) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/questions').then(function (result) { return result.data; })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/questions")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         questions = _a.sent();
                         return [2 /*return*/, questions];
@@ -26026,9 +26030,11 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/reservations').then(function (result) { return (result.data); })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/reservations")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         reservations = _a.sent();
                         return [2 /*return*/, reservations];
@@ -26043,9 +26049,11 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/elevator_bookings').then(function (result) { return (result.data); })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/elevator_bookings")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         bookings = _a.sent();
                         return [2 /*return*/, bookings];
@@ -26060,11 +26068,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.delete("/api/elevator_bookings/destroy/".concat(id))
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .delete("/api/elevator_bookings/destroy/".concat(id))
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26079,11 +26088,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.patch("/api/elevator_bookings/approve/".concat(id), formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .patch("/api/elevator_bookings/approve/".concat(id), formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         approveResult = _a.sent();
                         return [2 /*return*/, approveResult];
@@ -26098,11 +26108,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.patch("/api/elevator_bookings/reject/".concat(id), formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .patch("/api/elevator_bookings/reject/".concat(id), formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         approveResult = _a.sent();
                         return [2 /*return*/, approveResult];
@@ -26113,14 +26124,16 @@ var AdminManager = /** @class */ (function () {
     AdminManager.prototype.getParkingRegistrations = function () {
         return __awaiter(this, arguments, void 0, function (when) {
             var registration;
-            if (when === void 0) { when = 'today'; }
+            if (when === void 0) { when = "today"; }
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.get("/api/parking/".concat(when)).then(function (result) { return (result.data); })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/parking/".concat(when))
+                                .then(function (result) { return result.data; })];
                     case 1:
                         registration = _a.sent();
                         return [2 /*return*/, registration];
@@ -26135,11 +26148,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/questions/create', formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/questions/create", formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         addResult = _a.sent();
                         return [2 /*return*/, addResult];
@@ -26154,11 +26168,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.patch("/api/questions/update/".concat(id), formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .patch("/api/questions/update/".concat(id), formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         editResult = _a.sent();
                         return [2 /*return*/, editResult];
@@ -26173,11 +26188,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/resource_questions/create', formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/resource_questions/create", formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         addResult = _a.sent();
                         return [2 /*return*/, addResult];
@@ -26192,11 +26208,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.delete("/api/questions/destroy/".concat(id))
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .delete("/api/questions/destroy/".concat(id))
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26211,11 +26228,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/resource_questions/remove', formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/resource_questions/remove", formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26232,7 +26250,9 @@ var AdminManager = /** @class */ (function () {
                         if (!this._isAdmin) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/resources').then(function (result) { return result.data; })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/resources")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         amenities = _a.sent();
                         return [2 /*return*/, amenities];
@@ -26247,11 +26267,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/resources/create', formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/resources/create", formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         addResult = _a.sent();
                         return [2 /*return*/, addResult];
@@ -26266,11 +26287,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.patch("/api/resources/update/".concat(id), formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .patch("/api/resources/update/".concat(id), formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         addResult = _a.sent();
                         return [2 /*return*/, addResult];
@@ -26285,11 +26307,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.delete("/api/resources/destroy/".concat(id))
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .delete("/api/resources/destroy/".concat(id))
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26306,13 +26329,14 @@ var AdminManager = /** @class */ (function () {
                         if (!this._isAdmin) {
                             return [2 /*return*/, false];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/users/upload', formData, {
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/users/upload", formData, {
                                 headers: {
-                                    'Content-Type': 'multipart/form-data',
+                                    "Content-Type": "multipart/form-data",
                                 },
                             })
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         uploadResult = _a.sent();
                         return [2 /*return*/, uploadResult];
@@ -26327,11 +26351,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/users/create', formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/users/create", formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         addResult = _a.sent();
                         return [2 /*return*/, addResult];
@@ -26346,11 +26371,12 @@ var AdminManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
-                            return [2 /*return*/, Promise.reject(Error('Not authorized'))];
+                            return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default.patch("/api/users/update/".concat(id), formData)
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .patch("/api/users/update/".concat(id), formData)
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         editResult = _a.sent();
                         return [2 /*return*/, editResult];
@@ -26378,7 +26404,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.ParkingManager = void 0;
 var ParkingManager = /** @class */ (function () {
     function ParkingManager() {
-        this.userId = '0';
+        this.userId = "0";
     }
     ParkingManager.prototype.saveParking = function (registration) {
         if (registration.userId && registration.userId !== this.userId) {
@@ -26458,8 +26484,8 @@ var UserManager = /** @class */ (function () {
         this.fullname = undefined;
         this.unit = undefined;
         this.userType = admin_api_1.UserType.None;
-        if ((0, es_cookie_1.get)('token')) {
-            this.authKey = (0, es_cookie_1.get)('token');
+        if ((0, es_cookie_1.get)("token")) {
+            this.authKey = (0, es_cookie_1.get)("token");
             if (this.authKey) {
                 this.validateAuthKey(this.authKey);
             }
@@ -26473,8 +26499,8 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.authKey = undefined;
                 this.loggedIn = false;
-                return [2 /*return*/, axios_1.default.post('/api/authentication/login', { email: email }).then(function (result) {
-                        if (result.data.error === 'invalid_email') {
+                return [2 /*return*/, axios_1.default.post("/api/authentication/login", { email: email }).then(function (result) {
+                        if (result.data.error === "invalid_email") {
                             return false;
                         }
                         return true;
@@ -26488,11 +26514,13 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 this.authKey = undefined;
                 this.loggedIn = false;
-                return [2 /*return*/, axios_1.default.post('/api/authentication/logout', { token: authKey }).then(function (result) {
+                return [2 /*return*/, axios_1.default
+                        .post("/api/authentication/logout", { token: authKey })
+                        .then(function (result) {
                         if (result.data.success === true) {
                             _this.loggedIn = false;
                             _this.isAdmin = false;
-                            (0, es_cookie_1.remove)('token');
+                            (0, es_cookie_1.remove)("token");
                             return true;
                         }
                         return false;
@@ -26504,7 +26532,9 @@ var UserManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, axios_1.default.post('/api/authentication/process_login', { emailKey: emailKey }).then(function (result) {
+                return [2 /*return*/, axios_1.default
+                        .post("/api/authentication/process_login", { emailKey: emailKey })
+                        .then(function (result) {
                         if (result.data.success === false) {
                             return false;
                         }
@@ -26512,7 +26542,7 @@ var UserManager = /** @class */ (function () {
                             _this.authKey = result.data.token;
                             if (_this.authKey) {
                                 _this.loggedIn = true;
-                                (0, es_cookie_1.set)('token', _this.authKey, { expires: 100 });
+                                (0, es_cookie_1.set)("token", _this.authKey, { expires: 100 });
                             }
                             return true;
                         }
@@ -26525,7 +26555,7 @@ var UserManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, axios_1.default.post('/api/authentication/valid', { token: token }).then(function (result) {
+                return [2 /*return*/, axios_1.default.post("/api/authentication/valid", { token: token }).then(function (result) {
                         var success = false;
                         if (result.data.success === true) {
                             success = true;
@@ -26552,12 +26582,13 @@ var UserManager = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios_1.default.post('/api/reservations/create', formData)
+                    case 0: return [4 /*yield*/, axios_1.default
+                            .post("/api/reservations/create", formData)
                             .then(function (_result) {
                             _this.loggedIn = true;
-                            return ({ success: true });
+                            return { success: true };
                         })
-                            .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                            .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
                     case 1:
                         addReservation = _a.sent();
                         return [2 /*return*/, addReservation];
@@ -26571,12 +26602,13 @@ var UserManager = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios_1.default.post('/api/elevator_bookings/create', formData)
+                    case 0: return [4 /*yield*/, axios_1.default
+                            .post("/api/elevator_bookings/create", formData)
                             .then(function (_result) {
                             _this.loggedIn = true;
-                            return ({ success: true });
+                            return { success: true };
                         })
-                            .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                            .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
                     case 1:
                         addBooking = _a.sent();
                         return [2 /*return*/, addBooking];
@@ -26593,9 +26625,10 @@ var UserManager = /** @class */ (function () {
                         if (this.loggedIn) {
                             this.loggedIn = true;
                         }
-                        return [4 /*yield*/, axios_1.default.delete("/api/elevator_bookings/destroy/".concat(id))
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .delete("/api/elevator_bookings/destroy/".concat(id))
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26609,8 +26642,10 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.authKey = (0, es_cookie_1.get)('token');
-                        return [4 /*yield*/, axios_1.default.get('/api/questions').then(function (result) { return result.data; })];
+                        this.authKey = (0, es_cookie_1.get)("token");
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/questions")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         questions = _a.sent();
                         return [2 /*return*/, questions];
@@ -26624,8 +26659,10 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.authKey = (0, es_cookie_1.get)('token');
-                        return [4 /*yield*/, axios_1.default.get('/api/resources').then(function (result) { return result.data; })];
+                        this.authKey = (0, es_cookie_1.get)("token");
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/resources")
+                                .then(function (result) { return result.data; })];
                     case 1:
                         amenities = _a.sent();
                         return [2 /*return*/, amenities];
@@ -26640,9 +26677,10 @@ var UserManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        startDay = (0, moment_1.default)(date).startOf('day');
-                        endDay = (0, moment_1.default)(date).endOf('day');
-                        return [4 /*yield*/, axios_1.default.post('/api/reservations/find_reservations', {
+                        startDay = (0, moment_1.default)(date).startOf("day");
+                        endDay = (0, moment_1.default)(date).endOf("day");
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/reservations/find_reservations", {
                                 startDay: startDay,
                                 endDay: endDay,
                                 resource: amenity,
@@ -26651,7 +26689,7 @@ var UserManager = /** @class */ (function () {
                                 _this.loggedIn = true;
                                 return result.data;
                             })
-                                .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                                .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
                     case 1:
                         findReservation = _a.sent();
                         return [2 /*return*/, findReservation];
@@ -26668,9 +26706,10 @@ var UserManager = /** @class */ (function () {
                         if (this.loggedIn) {
                             this.loggedIn = true;
                         }
-                        return [4 /*yield*/, axios_1.default.post('/api/parking/create', formData)
-                                .then(function (_result) { return (({ success: true })); })
-                                .catch(function (error) { return (({ success: false, error: error.response.data.error })); })];
+                        return [4 /*yield*/, axios_1.default
+                                .post("/api/parking/create", formData)
+                                .then(function (_result) { return ({ success: true }); })
+                                .catch(function (error) { return ({ success: false, error: error.response.data.error }); })];
                     case 1:
                         addParkingReservation = _a.sent();
                         return [2 /*return*/, addParkingReservation];
@@ -26687,9 +26726,10 @@ var UserManager = /** @class */ (function () {
                         if (this.loggedIn) {
                             this.loggedIn = true;
                         }
-                        return [4 /*yield*/, axios_1.default.get('/api/reservations/mine')
-                                .then(function (result) { return (result.data); })
-                                .catch(function (error) { return (error); })];
+                        return [4 /*yield*/, axios_1.default
+                                .get("/api/reservations/mine")
+                                .then(function (result) { return result.data; })
+                                .catch(function (error) { return error; })];
                     case 1:
                         myReservations = _a.sent();
                         return [2 /*return*/, myReservations];
@@ -26706,9 +26746,10 @@ var UserManager = /** @class */ (function () {
                         if (this.loggedIn) {
                             this.loggedIn = true;
                         }
-                        return [4 /*yield*/, axios_1.default.delete("/api/reservations/destroy/".concat(id))
-                                .then(function (_result) { return (true); })
-                                .catch(function (_error) { return (false); })];
+                        return [4 /*yield*/, axios_1.default
+                                .delete("/api/reservations/destroy/".concat(id))
+                                .then(function (_result) { return true; })
+                                .catch(function (_error) { return false; })];
                     case 1:
                         deleteResult = _a.sent();
                         return [2 /*return*/, deleteResult];
@@ -26721,7 +26762,9 @@ var UserManager = /** @class */ (function () {
             var valid;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios_1.default.post('/api/authentication/valid', { token: authKey }).then(function (result) { return result.data; })];
+                    case 0: return [4 /*yield*/, axios_1.default
+                            .post("/api/authentication/valid", { token: authKey })
+                            .then(function (result) { return result.data; })];
                     case 1:
                         valid = _a.sent();
                         if (valid.valid) {

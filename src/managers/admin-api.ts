@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
   AdminApi,
   Amenity,
@@ -7,7 +7,7 @@ import {
   Question,
   Reservation,
   User,
-} from '../services/admin-api';
+} from "../services/admin-api";
 
 export class AdminManager implements AdminApi {
   private _isAdmin: boolean;
@@ -20,7 +20,9 @@ export class AdminManager implements AdminApi {
     if (!this._isAdmin) {
       return [];
     }
-    const users: User[] = await axios.get('/api/users').then((result) => result.data);
+    const users: User[] = await axios
+      .get("/api/users")
+      .then((result) => result.data);
     return users;
   }
 
@@ -28,138 +30,156 @@ export class AdminManager implements AdminApi {
     if (!this._isAdmin) {
       return [];
     }
-    const questions: Question[] = await axios.get('/api/questions').then((result) => result.data);
+    const questions: Question[] = await axios
+      .get("/api/questions")
+      .then((result) => result.data);
     return questions;
   }
 
   public async getReservations(): Promise<Reservation[]> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const reservations: Reservation[] = await axios.get('/api/reservations').then((result) => (
-      result.data
-    ));
+    const reservations: Reservation[] = await axios
+      .get("/api/reservations")
+      .then((result) => result.data);
 
     return reservations;
   }
 
   public async getElevatorBookings(): Promise<ElevatorBooking[]> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const bookings: ElevatorBooking[] = await axios.get('/api/elevator_bookings').then((result) => (
-      result.data
-    ));
+    const bookings: ElevatorBooking[] = await axios
+      .get("/api/elevator_bookings")
+      .then((result) => result.data);
 
     return bookings;
   }
 
   public async deleteElevatorBooking(id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const deleteResult: boolean = await axios.delete(`/api/elevator_bookings/destroy/${id}`)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .delete(`/api/elevator_bookings/destroy/${id}`)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
 
-  public async approveElevatorBooking(id: number, formData: FormData): Promise<boolean> {
+  public async approveElevatorBooking(
+    id: number,
+    formData: FormData,
+  ): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const approveResult: boolean = await axios.patch(`/api/elevator_bookings/approve/${id}`, formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const approveResult: boolean = await axios
+      .patch(`/api/elevator_bookings/approve/${id}`, formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return approveResult;
   }
 
-  public async rejectElevatorBooking(id: number, formData: FormData): Promise<boolean> {
+  public async rejectElevatorBooking(
+    id: number,
+    formData: FormData,
+  ): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const approveResult: boolean = await axios.patch(`/api/elevator_bookings/reject/${id}`, formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const approveResult: boolean = await axios
+      .patch(`/api/elevator_bookings/reject/${id}`, formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return approveResult;
   }
 
-  public async getParkingRegistrations(when = 'today'): Promise<ParkingRegistration[]> {
+  public async getParkingRegistrations(
+    when = "today",
+  ): Promise<ParkingRegistration[]> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const registration: ParkingRegistration[] = await axios.get(`/api/parking/${when}`).then((result) => (
-      result.data
-    ));
+    const registration: ParkingRegistration[] = await axios
+      .get(`/api/parking/${when}`)
+      .then((result) => result.data);
 
     return registration;
   }
 
   public async createQuestion(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const addResult: boolean = await axios.post('/api/questions/create', formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const addResult: boolean = await axios
+      .post("/api/questions/create", formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return addResult;
   }
 
   public async editQuestion(formData: FormData, id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const editResult: boolean = await axios.patch(`/api/questions/update/${id}`, formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const editResult: boolean = await axios
+      .patch(`/api/questions/update/${id}`, formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return editResult;
   }
 
   public async createAmenityQuestion(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const addResult: boolean = await axios.post('/api/resource_questions/create', formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const addResult: boolean = await axios
+      .post("/api/resource_questions/create", formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return addResult;
   }
 
   public async deleteQuestion(id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const deleteResult: boolean = await axios.delete(`/api/questions/destroy/${id}`)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .delete(`/api/questions/destroy/${id}`)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
 
   public async deleteAmenityQuestion(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const deleteResult: boolean = await axios.post('/api/resource_questions/remove', formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .post("/api/resource_questions/remove", formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
@@ -168,42 +188,47 @@ export class AdminManager implements AdminApi {
     if (!this._isAdmin) {
       return [];
     }
-    const amenities: Amenity[] = await axios.get('/api/resources').then((result) => result.data);
+    const amenities: Amenity[] = await axios
+      .get("/api/resources")
+      .then((result) => result.data);
     return amenities;
   }
 
   public async createAmenity(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const addResult: boolean = await axios.post('/api/resources/create', formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const addResult: boolean = await axios
+      .post("/api/resources/create", formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return addResult;
   }
 
   public async editAmenity(formData: FormData, id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const addResult: boolean = await axios.patch(`/api/resources/update/${id}`, formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const addResult: boolean = await axios
+      .patch(`/api/resources/update/${id}`, formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return addResult;
   }
 
   public async deleteAmenity(id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const deleteResult: boolean = await axios.delete(`/api/resources/destroy/${id}`)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const deleteResult: boolean = await axios
+      .delete(`/api/resources/destroy/${id}`)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return deleteResult;
   }
@@ -213,40 +238,39 @@ export class AdminManager implements AdminApi {
       return false;
     }
 
-    const uploadResult: boolean = await axios.post(
-      '/api/users/upload',
-      formData,
-      {
+    const uploadResult: boolean = await axios
+      .post("/api/users/upload", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
         },
-      },
-    )
-      .then((_result) => (true))
-      .catch((_error) => (false));
+      })
+      .then((_result) => true)
+      .catch((_error) => false);
     return uploadResult;
   }
 
   public async createUser(formData: FormData): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const addResult: boolean = await axios.post('/api/users/create', formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const addResult: boolean = await axios
+      .post("/api/users/create", formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return addResult;
   }
 
   public async editUser(formData: FormData, id: number): Promise<boolean> {
     if (!this._isAdmin) {
-      return Promise.reject(Error('Not authorized'));
+      return Promise.reject(Error("Not authorized"));
     }
 
-    const editResult: boolean = await axios.patch(`/api/users/update/${id}`, formData)
-      .then((_result) => (true))
-      .catch((_error) => (false));
+    const editResult: boolean = await axios
+      .patch(`/api/users/update/${id}`, formData)
+      .then((_result) => true)
+      .catch((_error) => false);
 
     return editResult;
   }

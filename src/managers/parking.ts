@@ -1,8 +1,8 @@
-import { ParkingApi, ParkingRegistration } from '../services/parking-api';
-import { GenericResponse } from '../services/common';
+import { ParkingApi, ParkingRegistration } from "../services/parking-api";
+import { GenericResponse } from "../services/common";
 
 export class ParkingManager implements ParkingApi {
-  private userId = '0';
+  private userId = "0";
 
   public saveParking(registration: ParkingRegistration): GenericResponse {
     if (registration.userId && registration.userId !== this.userId) {

@@ -7,6 +7,5 @@ export interface ProcessLoginResponse {
   data: {
     success: boolean;
     token: string | null;
-  }
+  };
 }
-

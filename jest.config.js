@@ -12,6 +12,7 @@ module.exports = {
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'json-summary'],
   automock: false,
   coverageProvider: 'v8',
+  testEnvironment: 'jsdom',
   coveragePathIgnorePatterns: [
     '/node_modules/',
   ],

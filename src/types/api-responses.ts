@@ -1,0 +1,37 @@
+// API Response Types for User Authentication and Management
+
+export interface LoginResponse {
+  error?: string;
+  success?: boolean;
+}
+
+export interface LogoutResponse {
+  success: boolean;
+}
+
+export interface ProcessLoginResponse {
+  success: boolean;
+  token?: string;
+}
+
+export interface UserData {
+  name: string;
+  email: string;
+  admin: boolean;
+  parkingAdmin: boolean;
+  vaccinated: boolean;
+  unit: number;
+  phone: string;
+  type: string;
+}
+
+export interface ValidateTokenResponse {
+  success: boolean;
+  user: UserData;
+}
+
+export interface GenericApiResponse {
+  success?: boolean;
+  error?: string;
+  message?: string;
+}

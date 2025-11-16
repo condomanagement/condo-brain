@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import moment from "moment";
 import { Md5 } from "ts-md5";
 import {
@@ -13,6 +13,12 @@ import {
   UserApi,
 } from "../services/user-api";
 import { Amenity, Question, UserType } from "../services/admin-api";
+import {
+  LoginResponse,
+  LogoutResponse,
+  ProcessLoginResponse,
+  ValidateTokenResponse,
+} from "../types/api-responses";
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -60,20 +66,22 @@ export class UserManager implements UserApi {
   public async login(email: string): Promise<boolean> {
     this.authKey = undefined;
     this.loggedIn = false;
-    return axios.post("/api/authentication/login", { email }).then((result) => {
-      if (result.data.error === "invalid_email") {
-        return false;
-      }
-      return true;
-    });
+    return axios
+      .post<LoginResponse>("/api/authentication/login", { email })
+      .then((result: AxiosResponse<LoginResponse>) => {
+        if (result.data.error === "invalid_email") {
+          return false;
+        }
+        return true;
+      });
   }
 
   public async logout(authKey: string): Promise<boolean> {
     this.authKey = undefined;
     this.loggedIn = false;
     return axios
-      .post("/api/authentication/logout", { token: authKey })
-      .then((result) => {
+      .post<LogoutResponse>("/api/authentication/logout", { token: authKey })
+      .then((result: AxiosResponse<LogoutResponse>) => {
         if (result.data.success === true) {
           this.loggedIn = false;
           this.isAdmin = false;
@@ -86,8 +94,8 @@ export class UserManager implements UserApi {
 
   public async processLogin(emailKey: string): Promise<boolean | string> {
     return axios
-      .post("/api/authentication/process_login", { emailKey })
-      .then((result) => {
+      .post<ProcessLoginResponse>("/api/authentication/process_login", { emailKey })
+      .then((result: AxiosResponse<ProcessLoginResponse>) => {
         if (result.data.success === false) {
           return false;
         }
@@ -104,20 +112,22 @@ export class UserManager implements UserApi {
   }
 
   public async validateToken(token: string): Promise<boolean> {
-    return axios.post("/api/authentication/valid", { token }).then((result) => {
-      let success = false;
-      if (result.data.success === true) {
-        success = true;
-        this.authKey = token;
-        this.loggedIn = true;
-        this.fullname = result.data.user.name;
-        this.md5Email = String(Md5.hashStr(result.data.user.email));
-        this.isAdmin = result.data.user.admin;
-        this.isParkingAdmin = result.data.user.parkingAdmin;
-        this.isVaccinated = result.data.user.vaccinated;
-        this.unit = result.data.user.unit;
-        this.phone = result.data.user.phone;
-        this.email = result.data.user.email;
+    return axios
+      .post<ValidateTokenResponse>("/api/authentication/valid", { token })
+      .then((result: AxiosResponse<ValidateTokenResponse>) => {
+        let success = false;
+        if (result.data.success === true) {
+          success = true;
+          this.authKey = token;
+          this.loggedIn = true;
+          this.fullname = result.data.user.name;
+          this.md5Email = String(Md5.hashStr(result.data.user.email));
+          this.isAdmin = result.data.user.admin;
+          this.isParkingAdmin = result.data.user.parkingAdmin;
+          this.isVaccinated = result.data.user.vaccinated;
+          this.unit = result.data.user.unit;
+          this.phone = result.data.user.phone;
+          this.email = result.data.user.email;
         this.userType = result.data.user.type;
       }
       return success;
@@ -126,12 +136,15 @@ export class UserManager implements UserApi {
 
   public async createReservation(formData: FormData): Promise<GenericResponse> {
     const addReservation: GenericResponse = await axios
-      .post("/api/reservations/create", formData)
+      .post<GenericResponse>("/api/reservations/create", formData)
       .then((_result) => {
         this.loggedIn = true;
         return { success: true };
       })
-      .catch((error) => ({ success: false, error: error.response.data.error }));
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addReservation;
   }
 
@@ -139,12 +152,15 @@ export class UserManager implements UserApi {
     formData: FormData,
   ): Promise<GenericResponse> {
     const addBooking: GenericResponse = await axios
-      .post("/api/elevator_bookings/create", formData)
+      .post<GenericResponse>("/api/elevator_bookings/create", formData)
       .then((_result) => {
         this.loggedIn = true;
         return { success: true };
       })
-      .catch((error) => ({ success: false, error: error.response.data.error }));
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addBooking;
   }
 
@@ -163,16 +179,16 @@ export class UserManager implements UserApi {
   public async getQuestions(): Promise<Question[]> {
     this.authKey = getCookie("token");
     const questions: Question[] = await axios
-      .get("/api/questions")
-      .then((result) => result.data);
+      .get<Question[]>("/api/questions")
+      .then((result: AxiosResponse<Question[]>) => result.data);
     return questions;
   }
 
   public async getAmenities(): Promise<Amenity[]> {
     this.authKey = getCookie("token");
     const amenities: Amenity[] = await axios
-      .get("/api/resources")
-      .then((result) => result.data);
+      .get<Amenity[]>("/api/resources")
+      .then((result: AxiosResponse<Amenity[]>) => result.data);
     return amenities;
   }
 
@@ -183,16 +199,20 @@ export class UserManager implements UserApi {
     const startDay = moment(date).startOf("day");
     const endDay = moment(date).endOf("day");
     const findReservation = await axios
-      .post("/api/reservations/find_reservations", {
+      .post<ReservationTime[]>("/api/reservations/find_reservations", {
         startDay,
         endDay,
         resource: amenity,
       })
-      .then((result) => {
+      .then((result: AxiosResponse<ReservationTime[]>) => {
         this.loggedIn = true;
         return result.data;
       })
-      .catch((error) => ({ success: false, error: error.response.data.error }));
+      .catch((error: { response?: { data?: { error?: string } } }) => {
+        // Return empty array on error since return type must match
+        console.error("Error finding reservations:", error.response?.data?.error);
+        return [] as ReservationTime[];
+      });
     return findReservation;
   }
 
@@ -202,9 +222,12 @@ export class UserManager implements UserApi {
     }
 
     const addParkingReservation: GenericResponse = await axios
-      .post("/api/parking/create", formData)
+      .post<GenericResponse>("/api/parking/create", formData)
       .then((_result) => ({ success: true }))
-      .catch((error) => ({ success: false, error: error.response.data.error }));
+      .catch((error: { response?: { data?: { error?: string } } }) => ({
+        success: false,
+        error: error.response?.data?.error,
+      }));
     return addParkingReservation;
   }
 
@@ -214,9 +237,12 @@ export class UserManager implements UserApi {
     }
 
     const myReservations = await axios
-      .get("/api/reservations/mine")
-      .then((result) => result.data)
-      .catch((error) => error);
+      .get<MyReservation[]>("/api/reservations/mine")
+      .then((result: AxiosResponse<MyReservation[]>) => result.data)
+      .catch((error) => {
+        console.error("Error getting reservations:", error);
+        return [] as MyReservation[];
+      });
     return myReservations;
   }
 
@@ -234,10 +260,10 @@ export class UserManager implements UserApi {
 
   private async validateAuthKey(authKey: string): Promise<void> {
     const valid = await axios
-      .post("/api/authentication/valid", { token: authKey })
-      .then((result) => result.data);
+      .post<{ valid: boolean; authKey?: string }>("/api/authentication/valid", { token: authKey })
+      .then((result: AxiosResponse<{ valid: boolean; authKey?: string }>) => result.data);
     if (valid.valid) {
-      this.loggedIn = valid;
+      this.loggedIn = true;
       this.authKey = valid.authKey;
     } else {
       this.authKey = undefined;

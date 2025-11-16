@@ -3,6 +3,8 @@ import {
   AdminApi,
   Amenity,
   ElevatorBooking,
+  PaginatedResponse,
+  PaginationParams,
   ParkingRegistration,
   Question,
   Reservation,
@@ -16,10 +18,29 @@ export class AdminManager implements AdminApi {
     this._isAdmin = true;
   }
 
-  public async getUsers(): Promise<User[]> {
+  public async getUsers(
+    pagination?: PaginationParams,
+  ): Promise<User[] | PaginatedResponse<User>> {
     if (!this._isAdmin) {
       return [];
     }
+
+    if (pagination) {
+      const params = new URLSearchParams();
+      if (pagination.page) params.append("page", pagination.page.toString());
+      if (pagination.items) params.append("items", pagination.items.toString());
+
+      const response = await axios.get<{
+        users: User[];
+        pagy: PaginatedResponse<User>["pagy"];
+      }>(`/api/users?${params.toString()}`);
+
+      return {
+        data: response.data.users,
+        pagy: response.data.pagy,
+      };
+    }
+
     const users: User[] = await axios
       .get<User[]>("/api/users")
       .then((result: AxiosResponse<User[]>) => result.data);
@@ -36,9 +57,27 @@ export class AdminManager implements AdminApi {
     return questions;
   }
 
-  public async getReservations(): Promise<Reservation[]> {
+  public async getReservations(
+    pagination?: PaginationParams,
+  ): Promise<Reservation[] | PaginatedResponse<Reservation>> {
     if (!this._isAdmin) {
       return Promise.reject(Error("Not authorized"));
+    }
+
+    if (pagination) {
+      const params = new URLSearchParams();
+      if (pagination.page) params.append("page", pagination.page.toString());
+      if (pagination.items) params.append("items", pagination.items.toString());
+
+      const response = await axios.get<{
+        reservations: Reservation[];
+        pagy: PaginatedResponse<Reservation>["pagy"];
+      }>(`/api/reservations?${params.toString()}`);
+
+      return {
+        data: response.data.reservations,
+        pagy: response.data.pagy,
+      };
     }
 
     const reservations: Reservation[] = await axios
@@ -48,9 +87,27 @@ export class AdminManager implements AdminApi {
     return reservations;
   }
 
-  public async getElevatorBookings(): Promise<ElevatorBooking[]> {
+  public async getElevatorBookings(
+    pagination?: PaginationParams,
+  ): Promise<ElevatorBooking[] | PaginatedResponse<ElevatorBooking>> {
     if (!this._isAdmin) {
       return Promise.reject(Error("Not authorized"));
+    }
+
+    if (pagination) {
+      const params = new URLSearchParams();
+      if (pagination.page) params.append("page", pagination.page.toString());
+      if (pagination.items) params.append("items", pagination.items.toString());
+
+      const response = await axios.get<{
+        elevator_bookings: ElevatorBooking[];
+        pagy: PaginatedResponse<ElevatorBooking>["pagy"];
+      }>(`/api/elevator_bookings?${params.toString()}`);
+
+      return {
+        data: response.data.elevator_bookings,
+        pagy: response.data.pagy,
+      };
     }
 
     const bookings: ElevatorBooking[] = await axios
@@ -107,9 +164,26 @@ export class AdminManager implements AdminApi {
 
   public async getParkingRegistrations(
     when = "today",
-  ): Promise<ParkingRegistration[]> {
+    pagination?: PaginationParams,
+  ): Promise<ParkingRegistration[] | PaginatedResponse<ParkingRegistration>> {
     if (!this._isAdmin) {
       return Promise.reject(Error("Not authorized"));
+    }
+
+    if (pagination) {
+      const params = new URLSearchParams();
+      if (pagination.page) params.append("page", pagination.page.toString());
+      if (pagination.items) params.append("items", pagination.items.toString());
+
+      const response = await axios.get<{
+        parking: ParkingRegistration[];
+        pagy: PaginatedResponse<ParkingRegistration>["pagy"];
+      }>(`/api/parking/${when}?${params.toString()}`);
+
+      return {
+        data: response.data.parking,
+        pagy: response.data.pagy,
+      };
     }
 
     const registration: ParkingRegistration[] = await axios

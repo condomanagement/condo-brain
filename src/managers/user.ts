@@ -19,6 +19,7 @@ import {
   ProcessLoginResponse,
   ValidateTokenResponse,
 } from "../types/api-responses";
+import PasskeyManager from "./passkey";
 
 export class UserManager implements UserApi {
   public loggedIn: boolean;
@@ -43,6 +44,8 @@ export class UserManager implements UserApi {
 
   public userType: UserType;
 
+  public passkeyManager: PasskeyManager;
+
   constructor() {
     this.loggedIn = false;
     this.isAdmin = false;
@@ -52,6 +55,7 @@ export class UserManager implements UserApi {
     this.fullname = undefined;
     this.unit = undefined;
     this.userType = UserType.None;
+    this.passkeyManager = new PasskeyManager();
 
     if (getCookie("token")) {
       this.authKey = getCookie("token");
@@ -61,6 +65,84 @@ export class UserManager implements UserApi {
     } else {
       this.authKey = undefined;
     }
+  }
+
+  /**
+   * Check if passkeys are supported in current browser
+   */
+  public isPasskeySupported(): boolean {
+    return PasskeyManager.isSupported();
+  }
+
+  /**
+   * Check if user has passkeys available
+   */
+  public async checkPasskeyAvailability(email: string): Promise<boolean> {
+    const result = await this.passkeyManager.checkAvailability(email);
+    return result.passkeys_available;
+  }
+
+  /**
+   * Login with passkey (alternative to email magic link)
+   */
+  public async loginWithPasskey(email: string): Promise<boolean> {
+    const result = await this.passkeyManager.authenticate(email);
+
+    if (result.success && result.token && result.user) {
+      this.authKey = result.token;
+      this.loggedIn = true;
+      this.fullname = result.user.name;
+      this.md5Email = String(Md5.hashStr(result.user.email));
+      this.isAdmin = result.user.admin;
+      this.isParkingAdmin = result.user.parkingAdmin;
+      this.isVaccinated = result.user.vaccinated;
+      this.unit = result.user.unit;
+      this.phone = result.user.phone;
+      this.email = result.user.email;
+      this.userType = result.user.type as UserType;
+
+      setCookie("token", this.authKey, { expires: 100 });
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Register a new passkey for current user
+   */
+  public async registerPasskey(nickname?: string): Promise<boolean> {
+    if (!this.authKey) {
+      return false;
+    }
+
+    const result = await this.passkeyManager.register(this.authKey, nickname);
+    return result.success;
+  }
+
+  /**
+   * Get list of user's passkeys
+   */
+  public async getPasskeys() {
+    if (!this.authKey) {
+      return [];
+    }
+
+    return await this.passkeyManager.listCredentials(this.authKey);
+  }
+
+  /**
+   * Delete a passkey
+   */
+  public async deletePasskey(credentialId: number): Promise<boolean> {
+    if (!this.authKey) {
+      return false;
+    }
+
+    return await this.passkeyManager.deleteCredential(
+      this.authKey,
+      credentialId,
+    );
   }
 
   public async login(email: string): Promise<boolean> {
@@ -210,7 +292,7 @@ export class UserManager implements UserApi {
         this.loggedIn = true;
         return result.data;
       })
-      .catch((error: { response?: { data?: { error?: string } } }) => {
+      .catch((_error: { response?: { data?: { error?: string } } }) => {
         // Return empty array on error since return type must match
         return [] as ReservationTime[];
       });
@@ -240,7 +322,7 @@ export class UserManager implements UserApi {
     const myReservations = await axios
       .get<MyReservation[]>("/api/reservations/mine")
       .then((result: AxiosResponse<MyReservation[]>) => result.data)
-      .catch((error) => {
+      .catch((_error) => {
         return [] as MyReservation[];
       });
     return myReservations;

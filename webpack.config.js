@@ -35,5 +35,9 @@ module.exports = {
     library: 'CondoBrain',
     libraryTarget: 'umd',
     umdNamedDefine: true,
+    globalObject: 'typeof self !== \'undefined\' ? self : this',
+  },
+  optimization: {
+    minimize: false,
   },
 };

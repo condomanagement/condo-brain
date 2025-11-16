@@ -7,7 +7,7 @@
 		exports["CondoBrain"] = factory();
 	else
 		root["CondoBrain"] = factory();
-})(self, () => {
+})(typeof self !== 'undefined' ? self : this, () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
@@ -26265,19 +26265,32 @@ var AdminManager = /** @class */ (function () {
     function AdminManager() {
         this._isAdmin = true;
     }
-    AdminManager.prototype.getUsers = function () {
+    AdminManager.prototype.getUsers = function (pagination) {
         return __awaiter(this, void 0, void 0, function () {
-            var users;
+            var params, response, users;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
                             return [2 /*return*/, []];
                         }
-                        return [4 /*yield*/, axios_1.default
-                                .get("/api/users")
-                                .then(function (result) { return result.data; })];
+                        if (!pagination) return [3 /*break*/, 2];
+                        params = new URLSearchParams();
+                        if (pagination.page)
+                            params.append("page", pagination.page.toString());
+                        if (pagination.items)
+                            params.append("items", pagination.items.toString());
+                        return [4 /*yield*/, axios_1.default.get("/api/users?".concat(params.toString()))];
                     case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, {
+                                data: response.data.users,
+                                pagy: response.data.pagy,
+                            }];
+                    case 2: return [4 /*yield*/, axios_1.default
+                            .get("/api/users")
+                            .then(function (result) { return result.data; })];
+                    case 3:
                         users = _a.sent();
                         return [2 /*return*/, users];
                 }
@@ -26303,38 +26316,64 @@ var AdminManager = /** @class */ (function () {
             });
         });
     };
-    AdminManager.prototype.getReservations = function () {
+    AdminManager.prototype.getReservations = function (pagination) {
         return __awaiter(this, void 0, void 0, function () {
-            var reservations;
+            var params, response, reservations;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
                             return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default
-                                .get("/api/reservations")
-                                .then(function (result) { return result.data; })];
+                        if (!pagination) return [3 /*break*/, 2];
+                        params = new URLSearchParams();
+                        if (pagination.page)
+                            params.append("page", pagination.page.toString());
+                        if (pagination.items)
+                            params.append("items", pagination.items.toString());
+                        return [4 /*yield*/, axios_1.default.get("/api/reservations?".concat(params.toString()))];
                     case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, {
+                                data: response.data.reservations,
+                                pagy: response.data.pagy,
+                            }];
+                    case 2: return [4 /*yield*/, axios_1.default
+                            .get("/api/reservations")
+                            .then(function (result) { return result.data; })];
+                    case 3:
                         reservations = _a.sent();
                         return [2 /*return*/, reservations];
                 }
             });
         });
     };
-    AdminManager.prototype.getElevatorBookings = function () {
+    AdminManager.prototype.getElevatorBookings = function (pagination) {
         return __awaiter(this, void 0, void 0, function () {
-            var bookings;
+            var params, response, bookings;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (!this._isAdmin) {
                             return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default
-                                .get("/api/elevator_bookings")
-                                .then(function (result) { return result.data; })];
+                        if (!pagination) return [3 /*break*/, 2];
+                        params = new URLSearchParams();
+                        if (pagination.page)
+                            params.append("page", pagination.page.toString());
+                        if (pagination.items)
+                            params.append("items", pagination.items.toString());
+                        return [4 /*yield*/, axios_1.default.get("/api/elevator_bookings?".concat(params.toString()))];
                     case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, {
+                                data: response.data.elevator_bookings,
+                                pagy: response.data.pagy,
+                            }];
+                    case 2: return [4 /*yield*/, axios_1.default
+                            .get("/api/elevator_bookings")
+                            .then(function (result) { return result.data; })];
+                    case 3:
                         bookings = _a.sent();
                         return [2 /*return*/, bookings];
                 }
@@ -26402,8 +26441,8 @@ var AdminManager = /** @class */ (function () {
         });
     };
     AdminManager.prototype.getParkingRegistrations = function () {
-        return __awaiter(this, arguments, void 0, function (when) {
-            var registration;
+        return __awaiter(this, arguments, void 0, function (when, pagination) {
+            var params, response, registration;
             if (when === void 0) { when = "today"; }
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -26411,10 +26450,23 @@ var AdminManager = /** @class */ (function () {
                         if (!this._isAdmin) {
                             return [2 /*return*/, Promise.reject(Error("Not authorized"))];
                         }
-                        return [4 /*yield*/, axios_1.default
-                                .get("/api/parking/".concat(when))
-                                .then(function (result) { return result.data; })];
+                        if (!pagination) return [3 /*break*/, 2];
+                        params = new URLSearchParams();
+                        if (pagination.page)
+                            params.append("page", pagination.page.toString());
+                        if (pagination.items)
+                            params.append("items", pagination.items.toString());
+                        return [4 /*yield*/, axios_1.default.get("/api/parking/".concat(when, "?").concat(params.toString()))];
                     case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, {
+                                data: response.data.parking,
+                                pagy: response.data.pagy,
+                            }];
+                    case 2: return [4 /*yield*/, axios_1.default
+                            .get("/api/parking/".concat(when))
+                            .then(function (result) { return result.data; })];
+                    case 3:
                         registration = _a.sent();
                         return [2 /*return*/, registration];
                 }

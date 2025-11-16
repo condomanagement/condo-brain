@@ -1,15 +1,15 @@
-import { AdminApi, Amenity, ElevatorBooking, ParkingRegistration, Question, Reservation, User } from "../services/admin-api";
+import { AdminApi, Amenity, ElevatorBooking, PaginatedResponse, PaginationParams, ParkingRegistration, Question, Reservation, User } from "../services/admin-api";
 export declare class AdminManager implements AdminApi {
     private _isAdmin;
     constructor();
-    getUsers(): Promise<User[]>;
+    getUsers(pagination?: PaginationParams): Promise<User[] | PaginatedResponse<User>>;
     getQuestions(): Promise<Question[]>;
-    getReservations(): Promise<Reservation[]>;
-    getElevatorBookings(): Promise<ElevatorBooking[]>;
+    getReservations(pagination?: PaginationParams): Promise<Reservation[] | PaginatedResponse<Reservation>>;
+    getElevatorBookings(pagination?: PaginationParams): Promise<ElevatorBooking[] | PaginatedResponse<ElevatorBooking>>;
     deleteElevatorBooking(id: number): Promise<boolean>;
     approveElevatorBooking(id: number, formData: FormData): Promise<boolean>;
     rejectElevatorBooking(id: number, formData: FormData): Promise<boolean>;
-    getParkingRegistrations(when?: string): Promise<ParkingRegistration[]>;
+    getParkingRegistrations(when?: string, pagination?: PaginationParams): Promise<ParkingRegistration[] | PaginatedResponse<ParkingRegistration>>;
     createQuestion(formData: FormData): Promise<boolean>;
     editQuestion(formData: FormData, id: number): Promise<boolean>;
     createAmenityQuestion(formData: FormData): Promise<boolean>;

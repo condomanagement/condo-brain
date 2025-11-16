@@ -31,8 +31,16 @@ describe("AdminManager", () => {
   describe("getQuestions", () => {
     test("fetches questions successfully", async () => {
       const mockQuestions = [
-        { id: 1, question: "What is your favorite color?", required_answer: "Blue" },
-        { id: 2, question: "What is your pet's name?", required_answer: "Fluffy" },
+        {
+          id: 1,
+          question: "What is your favorite color?",
+          required_answer: "Blue",
+        },
+        {
+          id: 2,
+          question: "What is your pet's name?",
+          required_answer: "Fluffy",
+        },
       ];
 
       mockedAxios.get.mockResolvedValue({ data: mockQuestions });

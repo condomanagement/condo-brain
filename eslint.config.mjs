@@ -6,7 +6,7 @@ import jest from 'eslint-plugin-jest';
 
 export default tseslint.config(
   eslint.configs.recommended,
-  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
   {
     languageOptions: {
       parserOptions: {

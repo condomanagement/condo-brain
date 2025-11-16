@@ -9,6 +9,9 @@ module.exports = {
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'ts-jest',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!(es-cookie)/)',
+  ],
   coverageReporters: ['json', 'lcov', 'text', 'clover', 'json-summary'],
   automock: false,
   coverageProvider: 'v8',

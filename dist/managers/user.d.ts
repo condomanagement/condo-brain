@@ -1,5 +1,6 @@
 import { GenericResponse, MyReservation, ReservationTime, UserApi } from "../services/user-api";
 import { Amenity, Question, UserType } from "../services/admin-api";
+import PasskeyManager from "./passkey";
 export declare class UserManager implements UserApi {
     loggedIn: boolean;
     isAdmin: boolean;
@@ -12,7 +13,32 @@ export declare class UserManager implements UserApi {
     email: string | undefined;
     phone: string | undefined;
     userType: UserType;
+    passkeyManager: PasskeyManager;
     constructor();
+    /**
+     * Check if passkeys are supported in current browser
+     */
+    isPasskeySupported(): boolean;
+    /**
+     * Check if user has passkeys available
+     */
+    checkPasskeyAvailability(email: string): Promise<boolean>;
+    /**
+     * Login with passkey (alternative to email magic link)
+     */
+    loginWithPasskey(email: string): Promise<boolean>;
+    /**
+     * Register a new passkey for current user
+     */
+    registerPasskey(nickname?: string): Promise<boolean>;
+    /**
+     * Get list of user's passkeys
+     */
+    getPasskeys(): Promise<import("../types/passkey-types").PasskeyCredential[]>;
+    /**
+     * Delete a passkey
+     */
+    deletePasskey(credentialId: number): Promise<boolean>;
     login(email: string): Promise<boolean>;
     logout(authKey: string): Promise<boolean>;
     processLogin(emailKey: string): Promise<boolean | string>;

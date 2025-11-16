@@ -70,6 +70,7 @@
     "whatwg-fetch": "^3.6.19"
   },
   "dependencies": {
+    "@github/webauthn-json": "^2.1.1",
     "axios": "^1.6.0",
     "es-cookie": "^1.4.0",
     "moment": "^2.29.4",

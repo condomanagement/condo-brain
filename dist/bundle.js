@@ -11,6 +11,286 @@
 return /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./node_modules/@github/webauthn-json/dist/cjs/webauthn-json.cjs":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@github/webauthn-json/dist/cjs/webauthn-json.cjs ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+"use strict";
+
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __async = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
+
+// src/webauthn-json/index.ts
+var webauthn_json_exports = {};
+__export(webauthn_json_exports, {
+  create: () => create,
+  get: () => get,
+  schema: () => schema,
+  supported: () => supported
+});
+module.exports = __toCommonJS(webauthn_json_exports);
+
+// src/webauthn-json/base64url.ts
+function base64urlToBuffer(baseurl64String) {
+  const padding = "==".slice(0, (4 - baseurl64String.length % 4) % 4);
+  const base64String = baseurl64String.replace(/-/g, "+").replace(/_/g, "/") + padding;
+  const str = atob(base64String);
+  const buffer = new ArrayBuffer(str.length);
+  const byteView = new Uint8Array(buffer);
+  for (let i = 0; i < str.length; i++) {
+    byteView[i] = str.charCodeAt(i);
+  }
+  return buffer;
+}
+function bufferToBase64url(buffer) {
+  const byteView = new Uint8Array(buffer);
+  let str = "";
+  for (const charCode of byteView) {
+    str += String.fromCharCode(charCode);
+  }
+  const base64String = btoa(str);
+  const base64urlString = base64String.replace(/\+/g, "-").replace(
+    /\//g,
+    "_"
+  ).replace(/=/g, "");
+  return base64urlString;
+}
+
+// src/webauthn-json/convert.ts
+var copyValue = "copy";
+var convertValue = "convert";
+function convert(conversionFn, schema2, input) {
+  if (schema2 === copyValue) {
+    return input;
+  }
+  if (schema2 === convertValue) {
+    return conversionFn(input);
+  }
+  if (schema2 instanceof Array) {
+    return input.map((v) => convert(conversionFn, schema2[0], v));
+  }
+  if (schema2 instanceof Object) {
+    const output = {};
+    for (const [key, schemaField] of Object.entries(schema2)) {
+      if (schemaField.derive) {
+        const v = schemaField.derive(input);
+        if (v !== void 0) {
+          input[key] = v;
+        }
+      }
+      if (!(key in input)) {
+        if (schemaField.required) {
+          throw new Error(`Missing key: ${key}`);
+        }
+        continue;
+      }
+      if (input[key] == null) {
+        output[key] = null;
+        continue;
+      }
+      output[key] = convert(
+        conversionFn,
+        schemaField.schema,
+        input[key]
+      );
+    }
+    return output;
+  }
+}
+function derived(schema2, derive) {
+  return {
+    required: true,
+    schema: schema2,
+    derive
+  };
+}
+function required(schema2) {
+  return {
+    required: true,
+    schema: schema2
+  };
+}
+function optional(schema2) {
+  return {
+    required: false,
+    schema: schema2
+  };
+}
+
+// src/webauthn-json/basic/schema.ts
+var publicKeyCredentialDescriptorSchema = {
+  type: required(copyValue),
+  id: required(convertValue),
+  transports: optional(copyValue)
+};
+var simplifiedExtensionsSchema = {
+  appid: optional(copyValue),
+  appidExclude: optional(copyValue),
+  credProps: optional(copyValue)
+};
+var simplifiedClientExtensionResultsSchema = {
+  appid: optional(copyValue),
+  appidExclude: optional(copyValue),
+  credProps: optional(copyValue)
+};
+var credentialCreationOptions = {
+  publicKey: required({
+    rp: required(copyValue),
+    user: required({
+      id: required(convertValue),
+      name: required(copyValue),
+      displayName: required(copyValue)
+    }),
+    challenge: required(convertValue),
+    pubKeyCredParams: required(copyValue),
+    timeout: optional(copyValue),
+    excludeCredentials: optional([publicKeyCredentialDescriptorSchema]),
+    authenticatorSelection: optional(copyValue),
+    attestation: optional(copyValue),
+    extensions: optional(simplifiedExtensionsSchema)
+  }),
+  signal: optional(copyValue)
+};
+var publicKeyCredentialWithAttestation = {
+  type: required(copyValue),
+  id: required(copyValue),
+  rawId: required(convertValue),
+  authenticatorAttachment: optional(copyValue),
+  response: required({
+    clientDataJSON: required(convertValue),
+    attestationObject: required(convertValue),
+    transports: derived(
+      copyValue,
+      (response) => {
+        var _a;
+        return ((_a = response.getTransports) == null ? void 0 : _a.call(response)) || [];
+      }
+    )
+  }),
+  clientExtensionResults: derived(
+    simplifiedClientExtensionResultsSchema,
+    (pkc) => pkc.getClientExtensionResults()
+  )
+};
+var credentialRequestOptions = {
+  mediation: optional(copyValue),
+  publicKey: required({
+    challenge: required(convertValue),
+    timeout: optional(copyValue),
+    rpId: optional(copyValue),
+    allowCredentials: optional([publicKeyCredentialDescriptorSchema]),
+    userVerification: optional(copyValue),
+    extensions: optional(simplifiedExtensionsSchema)
+  }),
+  signal: optional(copyValue)
+};
+var publicKeyCredentialWithAssertion = {
+  type: required(copyValue),
+  id: required(copyValue),
+  rawId: required(convertValue),
+  authenticatorAttachment: optional(copyValue),
+  response: required({
+    clientDataJSON: required(convertValue),
+    authenticatorData: required(convertValue),
+    signature: required(convertValue),
+    userHandle: required(convertValue)
+  }),
+  clientExtensionResults: derived(
+    simplifiedClientExtensionResultsSchema,
+    (pkc) => pkc.getClientExtensionResults()
+  )
+};
+var schema = {
+  credentialCreationOptions,
+  publicKeyCredentialWithAttestation,
+  credentialRequestOptions,
+  publicKeyCredentialWithAssertion
+};
+
+// src/webauthn-json/basic/api.ts
+function createRequestFromJSON(requestJSON) {
+  return convert(base64urlToBuffer, credentialCreationOptions, requestJSON);
+}
+function createResponseToJSON(credential) {
+  return convert(
+    bufferToBase64url,
+    publicKeyCredentialWithAttestation,
+    credential
+  );
+}
+function create(requestJSON) {
+  return __async(this, null, function* () {
+    const credential = yield navigator.credentials.create(
+      createRequestFromJSON(requestJSON)
+    );
+    return createResponseToJSON(credential);
+  });
+}
+function getRequestFromJSON(requestJSON) {
+  return convert(base64urlToBuffer, credentialRequestOptions, requestJSON);
+}
+function getResponseToJSON(credential) {
+  return convert(
+    bufferToBase64url,
+    publicKeyCredentialWithAssertion,
+    credential
+  );
+}
+function get(requestJSON) {
+  return __async(this, null, function* () {
+    const credential = yield navigator.credentials.get(
+      getRequestFromJSON(requestJSON)
+    );
+    return getResponseToJSON(credential);
+  });
+}
+
+// src/webauthn-json/basic/supported.ts
+function supported() {
+  return !!(navigator.credentials && navigator.credentials.create && navigator.credentials.get && window.PublicKeyCredential);
+}
+//# sourceMappingURL=webauthn-json.cjs.map
+
+
+/***/ }),
+
 /***/ "./node_modules/axios/dist/browser/axios.cjs":
 /*!***************************************************!*\
   !*** ./node_modules/axios/dist/browser/axios.cjs ***!
@@ -26420,6 +26700,283 @@ exports["default"] = ParkingManager;
 
 /***/ }),
 
+/***/ "./src/managers/passkey.ts":
+/*!*********************************!*\
+  !*** ./src/managers/passkey.ts ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PasskeyManager = void 0;
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/dist/browser/axios.cjs"));
+var webauthn_json_1 = __webpack_require__(/*! @github/webauthn-json */ "./node_modules/@github/webauthn-json/dist/cjs/webauthn-json.cjs");
+var PasskeyManager = /** @class */ (function () {
+    function PasskeyManager() {
+    }
+    /**
+     * Check if passkeys are supported in the current browser
+     */
+    PasskeyManager.isSupported = function () {
+        return (window.PublicKeyCredential !== undefined &&
+            typeof window.PublicKeyCredential === "function");
+    };
+    /**
+     * Check if a user has passkeys available for their email
+     */
+    PasskeyManager.prototype.checkAvailability = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.get("/api/webauthn/check_availability", {
+                            params: { email: email },
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
+            });
+        });
+    };
+    /**
+     * Start passkey registration process
+     * Returns the WebAuthn options needed for credential creation
+     */
+    PasskeyManager.prototype.getRegistrationOptions = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.get("/api/webauthn/registration_options", {
+                            params: { email: email },
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
+            });
+        });
+    };
+    /**
+     * Complete passkey registration
+     * Creates a new passkey for the user
+     */
+    PasskeyManager.prototype.register = function (token, nickname) {
+        return __awaiter(this, void 0, void 0, function () {
+            var userResponse, email, options, credential, response, _error_1;
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 5, , 6]);
+                        return [4 /*yield*/, axios_1.default.post("/api/authentication/valid", {
+                                token: token,
+                            })];
+                    case 1:
+                        userResponse = _c.sent();
+                        email = userResponse.data.user.email;
+                        return [4 /*yield*/, this.getRegistrationOptions(email)];
+                    case 2:
+                        options = _c.sent();
+                        return [4 /*yield*/, (0, webauthn_json_1.create)(options)];
+                    case 3:
+                        credential = _c.sent();
+                        return [4 /*yield*/, axios_1.default.post("/api/webauthn/register", {
+                                token: token,
+                                credential: credential,
+                                nickname: nickname,
+                            })];
+                    case 4:
+                        response = _c.sent();
+                        return [2 /*return*/, response.data];
+                    case 5:
+                        _error_1 = _c.sent();
+                        if (axios_1.default.isAxiosError(_error_1)) {
+                            return [2 /*return*/, {
+                                    success: false,
+                                    error: ((_b = (_a = _error_1.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error) ||
+                                        "Registration failed",
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                success: false,
+                                error: "Unknown registration error",
+                            }];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * Start passkey authentication process
+     * Returns the WebAuthn options needed for authentication
+     */
+    PasskeyManager.prototype.getAuthenticationOptions = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.get("/api/webauthn/authentication_options", {
+                            params: { email: email },
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data];
+                }
+            });
+        });
+    };
+    /**
+     * Complete passkey authentication
+     * Authenticates the user with their passkey
+     */
+    PasskeyManager.prototype.authenticate = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var options, credential, response, _error_2;
+            var _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        _c.trys.push([0, 4, , 5]);
+                        return [4 /*yield*/, this.getAuthenticationOptions(email)];
+                    case 1:
+                        options = _c.sent();
+                        if (!options.passkeys_available) {
+                            return [2 /*return*/, {
+                                    success: false,
+                                    error: "No passkeys available for this user",
+                                }];
+                        }
+                        return [4 /*yield*/, (0, webauthn_json_1.get)(options)];
+                    case 2:
+                        credential = _c.sent();
+                        return [4 /*yield*/, axios_1.default.post("/api/webauthn/authenticate", {
+                                credential: credential,
+                            })];
+                    case 3:
+                        response = _c.sent();
+                        return [2 /*return*/, response.data];
+                    case 4:
+                        _error_2 = _c.sent();
+                        if (axios_1.default.isAxiosError(_error_2)) {
+                            return [2 /*return*/, {
+                                    success: false,
+                                    error: ((_b = (_a = _error_2.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error) ||
+                                        "Authentication failed",
+                                }];
+                        }
+                        return [2 /*return*/, {
+                                success: false,
+                                error: "Unknown authentication error",
+                            }];
+                    case 5: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * List all passkeys for the current user
+     */
+    PasskeyManager.prototype.listCredentials = function (token) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.get("/api/webauthn/credentials", {
+                            params: { token: token },
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.data.credentials];
+                }
+            });
+        });
+    };
+    /**
+     * Delete a passkey
+     */
+    PasskeyManager.prototype.deleteCredential = function (token, credentialId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.delete("/api/webauthn/credentials/".concat(credentialId), {
+                            params: { token: token },
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, true];
+                }
+            });
+        });
+    };
+    /**
+     * Update passkey nickname
+     */
+    PasskeyManager.prototype.updateNickname = function (token, credentialId, nickname) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, axios_1.default.patch("/api/webauthn/credentials/".concat(credentialId), {
+                            nickname: nickname,
+                        }, {
+                            params: { token: token },
+                        })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/, true];
+                }
+            });
+        });
+    };
+    return PasskeyManager;
+}());
+exports.PasskeyManager = PasskeyManager;
+exports["default"] = PasskeyManager;
+
+
+/***/ }),
+
 /***/ "./src/managers/user.ts":
 /*!******************************!*\
   !*** ./src/managers/user.ts ***!
@@ -26474,6 +27031,7 @@ var moment_1 = __importDefault(__webpack_require__(/*! moment */ "./node_modules
 var ts_md5_1 = __webpack_require__(/*! ts-md5 */ "./node_modules/ts-md5/dist/index.cjs.js");
 var es_cookie_1 = __webpack_require__(/*! es-cookie */ "./node_modules/es-cookie/src/es-cookie.js");
 var admin_api_1 = __webpack_require__(/*! ../services/admin-api */ "./src/services/admin-api.ts");
+var passkey_1 = __importDefault(__webpack_require__(/*! ./passkey */ "./src/managers/passkey.ts"));
 var UserManager = /** @class */ (function () {
     function UserManager() {
         this.loggedIn = false;
@@ -26484,6 +27042,7 @@ var UserManager = /** @class */ (function () {
         this.fullname = undefined;
         this.unit = undefined;
         this.userType = admin_api_1.UserType.None;
+        this.passkeyManager = new passkey_1.default();
         if ((0, es_cookie_1.get)("token")) {
             this.authKey = (0, es_cookie_1.get)("token");
             if (this.authKey) {
@@ -26494,6 +27053,113 @@ var UserManager = /** @class */ (function () {
             this.authKey = undefined;
         }
     }
+    /**
+     * Check if passkeys are supported in current browser
+     */
+    UserManager.prototype.isPasskeySupported = function () {
+        return passkey_1.default.isSupported();
+    };
+    /**
+     * Check if user has passkeys available
+     */
+    UserManager.prototype.checkPasskeyAvailability = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.passkeyManager.checkAvailability(email)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result.passkeys_available];
+                }
+            });
+        });
+    };
+    /**
+     * Login with passkey (alternative to email magic link)
+     */
+    UserManager.prototype.loginWithPasskey = function (email) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.passkeyManager.authenticate(email)];
+                    case 1:
+                        result = _a.sent();
+                        if (result.success && result.token && result.user) {
+                            this.authKey = result.token;
+                            this.loggedIn = true;
+                            this.fullname = result.user.name;
+                            this.md5Email = String(ts_md5_1.Md5.hashStr(result.user.email));
+                            this.isAdmin = result.user.admin;
+                            this.isParkingAdmin = result.user.parkingAdmin;
+                            this.isVaccinated = result.user.vaccinated;
+                            this.unit = result.user.unit;
+                            this.phone = result.user.phone;
+                            this.email = result.user.email;
+                            this.userType = result.user.type;
+                            (0, es_cookie_1.set)("token", this.authKey, { expires: 100 });
+                            return [2 /*return*/, true];
+                        }
+                        return [2 /*return*/, false];
+                }
+            });
+        });
+    };
+    /**
+     * Register a new passkey for current user
+     */
+    UserManager.prototype.registerPasskey = function (nickname) {
+        return __awaiter(this, void 0, void 0, function () {
+            var result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.authKey) {
+                            return [2 /*return*/, false];
+                        }
+                        return [4 /*yield*/, this.passkeyManager.register(this.authKey, nickname)];
+                    case 1:
+                        result = _a.sent();
+                        return [2 /*return*/, result.success];
+                }
+            });
+        });
+    };
+    /**
+     * Get list of user's passkeys
+     */
+    UserManager.prototype.getPasskeys = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.authKey) {
+                            return [2 /*return*/, []];
+                        }
+                        return [4 /*yield*/, this.passkeyManager.listCredentials(this.authKey)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    /**
+     * Delete a passkey
+     */
+    UserManager.prototype.deletePasskey = function (credentialId) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.authKey) {
+                            return [2 /*return*/, false];
+                        }
+                        return [4 /*yield*/, this.passkeyManager.deleteCredential(this.authKey, credentialId)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     UserManager.prototype.login = function (email) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -26707,10 +27373,8 @@ var UserManager = /** @class */ (function () {
                                 _this.loggedIn = true;
                                 return result.data;
                             })
-                                .catch(function (error) {
-                                var _a, _b;
+                                .catch(function (_error) {
                                 // Return empty array on error since return type must match
-                                console.error("Error finding reservations:", (_b = (_a = error.response) === null || _a === void 0 ? void 0 : _a.data) === null || _b === void 0 ? void 0 : _b.error);
                                 return [];
                             })];
                     case 1:
@@ -26758,8 +27422,7 @@ var UserManager = /** @class */ (function () {
                         return [4 /*yield*/, axios_1.default
                                 .get("/api/reservations/mine")
                                 .then(function (result) { return result.data; })
-                                .catch(function (error) {
-                                console.error("Error getting reservations:", error);
+                                .catch(function (_error) {
                                 return [];
                             })];
                     case 1:

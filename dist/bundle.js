@@ -26238,6 +26238,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   AdminManager: () => (/* reexport safe */ _managers_admin_api__WEBPACK_IMPORTED_MODULE_1__.AdminManager),
 /* harmony export */   BookingStatus: () => (/* reexport safe */ _services_admin_api__WEBPACK_IMPORTED_MODULE_2__.BookingStatus),
 /* harmony export */   ParkingManager: () => (/* reexport safe */ _managers_parking__WEBPACK_IMPORTED_MODULE_0__.ParkingManager),
+/* harmony export */   PasskeyManager: () => (/* reexport safe */ _managers_passkey__WEBPACK_IMPORTED_MODULE_5__.PasskeyManager),
 /* harmony export */   UserManager: () => (/* reexport safe */ _managers_user__WEBPACK_IMPORTED_MODULE_3__.UserManager),
 /* harmony export */   UserType: () => (/* reexport safe */ _services_admin_api__WEBPACK_IMPORTED_MODULE_2__.UserType)
 /* harmony export */ });
@@ -26246,6 +26247,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_admin_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/admin-api */ "./src/services/admin-api.ts");
 /* harmony import */ var _managers_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./managers/user */ "./src/managers/user.ts");
 /* harmony import */ var _services_user_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/user-api */ "./src/services/user-api.ts");
+/* harmony import */ var _managers_passkey__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/passkey */ "./src/managers/passkey.ts");
+
 
 
 

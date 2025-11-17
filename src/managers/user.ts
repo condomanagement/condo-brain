@@ -149,7 +149,7 @@ export class UserManager implements UserApi {
     this.authKey = undefined;
     this.loggedIn = false;
     return axios
-      .post<LoginResponse>("/authentication/login", { email })
+      .post<LoginResponse>("/api/authentication/login", { email })
       .then((result: AxiosResponse<LoginResponse>) => {
         if (result.data.error === "invalid_email") {
           return false;

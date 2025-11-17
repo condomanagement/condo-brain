@@ -1,6 +1,6 @@
 {
   "name": "@condomanagement/condo-brain",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "description": "Common interface for condo apps",
   "types": "./dist/index.d.ts",
   "main": "./dist/bundle.js",

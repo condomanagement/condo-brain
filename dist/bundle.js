@@ -25750,7 +25750,7 @@ var UserManager = /** @class */ (function () {
                         if (!this.authKey) {
                             return [2 /*return*/, false];
                         }
-                        return [4 /*yield*/, this.passkeyManager.register(nickname)];
+                        return [4 /*yield*/, this.passkeyManager.register(this.authKey, nickname)];
                     case 1:
                         result = _a.sent();
                         return [2 /*return*/, result.success];

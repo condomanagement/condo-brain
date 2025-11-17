@@ -26150,6 +26150,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/***/ }),
+
+/***/ "./src/types/passkey-types.ts":
+/*!************************************!*\
+  !*** ./src/types/passkey-types.ts ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// WebAuthn/Passkey TypeScript Interfaces
+
+
+
 /***/ })
 
 /******/ 	});
@@ -26254,6 +26268,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _managers_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./managers/user */ "./src/managers/user.ts");
 /* harmony import */ var _services_user_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/user-api */ "./src/services/user-api.ts");
 /* harmony import */ var _managers_passkey__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/passkey */ "./src/managers/passkey.ts");
+/* harmony import */ var _types_passkey_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types/passkey-types */ "./src/types/passkey-types.ts");
+
 
 
 

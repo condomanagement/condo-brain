@@ -25481,7 +25481,8 @@ var PasskeyManager = /** @class */ (function () {
     /**
      * Complete passkey authentication
      * Authenticates the user with their passkey
-     * @param email Optional email for account-specific authentication. If omitted, uses usernameless/discoverable credentials
+     * @param email Optional email for account-specific authentication.
+     * If omitted, uses usernameless/discoverable credentials
      */
     PasskeyManager.prototype.authenticate = function (email) {
         return __awaiter(this, void 0, void 0, function () {
@@ -25581,7 +25582,7 @@ var PasskeyManager = /** @class */ (function () {
     /**
      * @deprecated Use list() instead
      */
-    PasskeyManager.prototype.listCredentials = function (token) {
+    PasskeyManager.prototype.listCredentials = function (_token) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, this.list()];

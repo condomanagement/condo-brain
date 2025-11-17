@@ -58,7 +58,10 @@ export class PasskeyManager {
    * Complete passkey registration (cookie-based auth)
    * Creates a new passkey for the user
    */
-  public async register(token: string, nickname?: string): Promise<PasskeyRegistrationResponse> {
+  public async register(
+    token: string,
+    nickname?: string,
+  ): Promise<PasskeyRegistrationResponse> {
     try {
       // Get registration options from server
       const options = await this.getRegistrationOptions();
@@ -117,7 +120,8 @@ export class PasskeyManager {
   /**
    * Complete passkey authentication
    * Authenticates the user with their passkey
-   * @param email Optional email for account-specific authentication. If omitted, uses usernameless/discoverable credentials
+   * @param email Optional email for account-specific authentication.
+   * If omitted, uses usernameless/discoverable credentials
    */
   public async authenticate(
     email?: string,
@@ -202,11 +206,11 @@ export class PasskeyManager {
   }
 
   // Deprecated methods (for backward compatibility)
-  
+
   /**
    * @deprecated Use list() instead
    */
-  public async listCredentials(token: string): Promise<PasskeyCredential[]> {
+  public async listCredentials(_token: string): Promise<PasskeyCredential[]> {
     return this.list();
   }
 

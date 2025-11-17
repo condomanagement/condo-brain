@@ -26,7 +26,8 @@ export declare class PasskeyManager {
     /**
      * Complete passkey authentication
      * Authenticates the user with their passkey
-     * @param email Optional email for account-specific authentication. If omitted, uses usernameless/discoverable credentials
+     * @param email Optional email for account-specific authentication.
+     * If omitted, uses usernameless/discoverable credentials
      */
     authenticate(email?: string): Promise<PasskeyAuthenticationResponse>;
     /**
@@ -44,7 +45,7 @@ export declare class PasskeyManager {
     /**
      * @deprecated Use list() instead
      */
-    listCredentials(token: string): Promise<PasskeyCredential[]>;
+    listCredentials(_token: string): Promise<PasskeyCredential[]>;
     /**
      * @deprecated Use delete() instead
      */

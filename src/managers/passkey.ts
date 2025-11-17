@@ -62,7 +62,10 @@ export class PasskeyManager {
       const options = await this.getRegistrationOptions();
 
       // Create the credential using WebAuthn
-      const credential = await create(options as CredentialCreationOptionsJSON);
+      // Wrap options in publicKey as required by the WebAuthn spec
+      const credential = await create({
+        publicKey: options,
+      } as CredentialCreationOptionsJSON);
 
       // Register the credential with the server
       const response = await axios.post<PasskeyRegistrationResponse>(
@@ -125,7 +128,10 @@ export class PasskeyManager {
       }
 
       // Get the credential from the authenticator
-      const credential = await get(options as CredentialRequestOptionsJSON);
+      // Wrap options in publicKey as required by the WebAuthn spec
+      const credential = await get({
+        publicKey: options,
+      } as CredentialRequestOptionsJSON);
 
       // Send credential to server for verification
       const response = await axios.post<PasskeyAuthenticationResponse>(

@@ -40,7 +40,7 @@ describe("UserManager", () => {
       const result = await manager.login("test@example.com");
 
       expect(mockedAxios.post).toHaveBeenCalledWith(
-        "/api/authentication/login",
+        "/authentication/login",
         {
           email: "test@example.com",
         },

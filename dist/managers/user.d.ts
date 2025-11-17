@@ -34,7 +34,7 @@ export declare class UserManager implements UserApi {
     /**
      * Get list of user's passkeys
      */
-    getPasskeys(): Promise<import("../types/passkey-types").PasskeyCredential[]>;
+    getPasskeys(): Promise<import("..").PasskeyCredential[]>;
     /**
      * Delete a passkey
      */

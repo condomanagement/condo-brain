@@ -9,12 +9,12 @@ export declare class PasskeyManager {
      */
     checkAvailability(email: string): Promise<PasskeyAvailabilityResponse>;
     /**
-     * Start passkey registration process
+     * Start passkey registration process (cookie-based auth)
      * Returns the WebAuthn options needed for credential creation
      */
-    getRegistrationOptions(email: string): Promise<PasskeyRegistrationOptions>;
+    getRegistrationOptions(): Promise<PasskeyRegistrationOptions>;
     /**
-     * Complete passkey registration
+     * Complete passkey registration (cookie-based auth)
      * Creates a new passkey for the user
      */
     register(token: string, nickname?: string): Promise<PasskeyRegistrationResponse>;
@@ -22,24 +22,34 @@ export declare class PasskeyManager {
      * Start passkey authentication process
      * Returns the WebAuthn options needed for authentication
      */
-    getAuthenticationOptions(email: string): Promise<PasskeyAuthenticationOptions>;
+    getAuthenticationOptions(email?: string): Promise<PasskeyAuthenticationOptions>;
     /**
      * Complete passkey authentication
      * Authenticates the user with their passkey
+     * @param email Optional email for account-specific authentication.
+     * If omitted, uses usernameless/discoverable credentials
      */
-    authenticate(email: string): Promise<PasskeyAuthenticationResponse>;
+    authenticate(email?: string): Promise<PasskeyAuthenticationResponse>;
     /**
-     * List all passkeys for the current user
+     * List all passkeys for the current user (cookie-based auth)
      */
-    listCredentials(token: string): Promise<PasskeyCredential[]>;
+    list(): Promise<PasskeyCredential[]>;
     /**
-     * Delete a passkey
+     * Delete a passkey (cookie-based auth)
+     */
+    delete(credentialId: number): Promise<boolean>;
+    /**
+     * Update passkey nickname (cookie-based auth)
+     */
+    updateNickname(credentialId: number, nickname: string): Promise<boolean>;
+    /**
+     * @deprecated Use list() instead
+     */
+    listCredentials(_token: string): Promise<PasskeyCredential[]>;
+    /**
+     * @deprecated Use delete() instead
      */
     deleteCredential(token: string, credentialId: number): Promise<boolean>;
-    /**
-     * Update passkey nickname
-     */
-    updateNickname(token: string, credentialId: number, nickname: string): Promise<boolean>;
 }
 export default PasskeyManager;
 //# sourceMappingURL=passkey.d.ts.map

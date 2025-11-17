@@ -36,29 +36,26 @@ export class PasskeyManager {
       "/api/webauthn/check_availability",
       {
         params: { email },
+        withCredentials: true,
       },
     );
     return response.data;
   }
 
   /**
-   * Start passkey registration process
+   * Start passkey registration process (cookie-based auth)
    * Returns the WebAuthn options needed for credential creation
    */
-  public async getRegistrationOptions(
-    email: string,
-  ): Promise<PasskeyRegistrationOptions> {
+  public async getRegistrationOptions(): Promise<PasskeyRegistrationOptions> {
     const response = await axios.get<PasskeyRegistrationOptions>(
       "/api/webauthn/registration_options",
-      {
-        params: { email },
-      },
+      { withCredentials: true },
     );
     return response.data;
   }
 
   /**
-   * Complete passkey registration
+   * Complete passkey registration (cookie-based auth)
    * Creates a new passkey for the user
    */
   public async register(
@@ -66,22 +63,14 @@ export class PasskeyManager {
     nickname?: string,
   ): Promise<PasskeyRegistrationResponse> {
     try {
-      // Get user's email from token first
-      const userResponse = await axios.post<{ user: { email: string } }>(
-        "/api/authentication/valid",
-        {
-          token,
-        },
-      );
-      const email = userResponse.data.user.email;
-
       // Get registration options from server
-      const options = await this.getRegistrationOptions(email);
+      const options = await this.getRegistrationOptions();
 
       // Create the credential using WebAuthn
-      const credential = await create(
-        options as unknown as CredentialCreationOptionsJSON,
-      );
+      // Wrap options in publicKey as required by the WebAuthn spec
+      const credential = await create({
+        publicKey: options,
+      } as CredentialCreationOptionsJSON);
 
       // Register the credential with the server
       const response = await axios.post<PasskeyRegistrationResponse>(
@@ -91,6 +80,7 @@ export class PasskeyManager {
           credential,
           nickname,
         },
+        { withCredentials: true },
       );
 
       return response.data;
@@ -115,12 +105,13 @@ export class PasskeyManager {
    * Returns the WebAuthn options needed for authentication
    */
   public async getAuthenticationOptions(
-    email: string,
+    email?: string,
   ): Promise<PasskeyAuthenticationOptions> {
     const response = await axios.get<PasskeyAuthenticationOptions>(
       "/api/webauthn/authentication_options",
       {
-        params: { email },
+        params: email ? { email } : {},
+        withCredentials: true,
       },
     );
     return response.data;
@@ -129,15 +120,17 @@ export class PasskeyManager {
   /**
    * Complete passkey authentication
    * Authenticates the user with their passkey
+   * @param email Optional email for account-specific authentication.
+   * If omitted, uses usernameless/discoverable credentials
    */
   public async authenticate(
-    email: string,
+    email?: string,
   ): Promise<PasskeyAuthenticationResponse> {
     try {
       // Get authentication options from server
       const options = await this.getAuthenticationOptions(email);
 
-      if (!options.passkeys_available) {
+      if (!options.passkeys_available && email) {
         return {
           success: false,
           error: "No passkeys available for this user",
@@ -145,9 +138,10 @@ export class PasskeyManager {
       }
 
       // Get the credential from the authenticator
-      const credential = await get(
-        options as unknown as CredentialRequestOptionsJSON,
-      );
+      // Wrap options in publicKey as required by the WebAuthn spec
+      const credential = await get({
+        publicKey: options,
+      } as CredentialRequestOptionsJSON);
 
       // Send credential to server for verification
       const response = await axios.post<PasskeyAuthenticationResponse>(
@@ -155,6 +149,7 @@ export class PasskeyManager {
         {
           credential,
         },
+        { withCredentials: true },
       );
 
       return response.data;
@@ -175,49 +170,58 @@ export class PasskeyManager {
   }
 
   /**
-   * List all passkeys for the current user
+   * List all passkeys for the current user (cookie-based auth)
    */
-  public async listCredentials(token: string): Promise<PasskeyCredential[]> {
+  public async list(): Promise<PasskeyCredential[]> {
     const response = await axios.get<PasskeyListResponse>(
       "/api/webauthn/credentials",
-      {
-        params: { token },
-      },
+      { withCredentials: true },
     );
     return response.data.credentials;
   }
 
   /**
-   * Delete a passkey
+   * Delete a passkey (cookie-based auth)
    */
-  public async deleteCredential(
-    token: string,
-    credentialId: number,
-  ): Promise<boolean> {
+  public async delete(credentialId: number): Promise<boolean> {
     await axios.delete(`/api/webauthn/credentials/${credentialId}`, {
-      params: { token },
+      withCredentials: true,
     });
     return true;
   }
 
   /**
-   * Update passkey nickname
+   * Update passkey nickname (cookie-based auth)
    */
   public async updateNickname(
-    token: string,
     credentialId: number,
     nickname: string,
   ): Promise<boolean> {
     await axios.patch(
       `/api/webauthn/credentials/${credentialId}`,
-      {
-        nickname,
-      },
-      {
-        params: { token },
-      },
+      { nickname },
+      { withCredentials: true },
     );
     return true;
+  }
+
+  // Deprecated methods (for backward compatibility)
+
+  /**
+   * @deprecated Use list() instead
+   */
+  public async listCredentials(_token: string): Promise<PasskeyCredential[]> {
+    return this.list();
+  }
+
+  /**
+   * @deprecated Use delete() instead
+   */
+  public async deleteCredential(
+    token: string,
+    credentialId: number,
+  ): Promise<boolean> {
+    return this.delete(credentialId);
   }
 }
 

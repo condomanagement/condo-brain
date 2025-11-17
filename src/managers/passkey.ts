@@ -56,7 +56,7 @@ export class PasskeyManager {
    * Complete passkey registration (cookie-based auth)
    * Creates a new passkey for the user
    */
-  public async register(nickname?: string): Promise<PasskeyRegistrationResponse> {
+  public async register(token: string, nickname?: string): Promise<PasskeyRegistrationResponse> {
     try {
       // Get registration options from server
       const options = await this.getRegistrationOptions();
@@ -71,6 +71,7 @@ export class PasskeyManager {
       const response = await axios.post<PasskeyRegistrationResponse>(
         "/api/webauthn/register",
         {
+          token,
           credential,
           nickname,
         },

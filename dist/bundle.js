@@ -25426,7 +25426,9 @@ var PasskeyManager = /** @class */ (function () {
                         return [4 /*yield*/, this.getRegistrationOptions()];
                     case 1:
                         options = _c.sent();
-                        return [4 /*yield*/, (0,_github_webauthn_json__WEBPACK_IMPORTED_MODULE_1__.create)(options)];
+                        return [4 /*yield*/, (0,_github_webauthn_json__WEBPACK_IMPORTED_MODULE_1__.create)({
+                                publicKey: options,
+                            })];
                     case 2:
                         credential = _c.sent();
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/webauthn/register", {
@@ -25494,7 +25496,9 @@ var PasskeyManager = /** @class */ (function () {
                                     error: "No passkeys available for this user",
                                 }];
                         }
-                        return [4 /*yield*/, (0,_github_webauthn_json__WEBPACK_IMPORTED_MODULE_1__.get)(options)];
+                        return [4 /*yield*/, (0,_github_webauthn_json__WEBPACK_IMPORTED_MODULE_1__.get)({
+                                publicKey: options,
+                            })];
                     case 2:
                         credential = _c.sent();
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/webauthn/authenticate", {

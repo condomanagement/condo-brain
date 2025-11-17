@@ -9,45 +9,41 @@ export interface PasskeyCredential {
 }
 
 export interface PasskeyRegistrationOptions {
-  publicKey: {
-    challenge: string;
-    rp: {
-      name: string;
-      id?: string;
-    };
-    user: {
-      id: string;
-      name: string;
-      displayName: string;
-    };
-    pubKeyCredParams: Array<{
-      type: string;
-      alg: number;
-    }>;
-    timeout?: number;
-    excludeCredentials?: Array<{
-      id: string;
-      type: string;
-    }>;
-    authenticatorSelection?: {
-      authenticatorAttachment?: "platform" | "cross-platform";
-      residentKey?: "discouraged" | "preferred" | "required";
-      userVerification?: "discouraged" | "preferred" | "required";
-    };
+  challenge: string;
+  rp: {
+    name: string;
+    id?: string;
+  };
+  user: {
+    id: string;
+    name: string;
+    displayName: string;
+  };
+  pubKeyCredParams: Array<{
+    type: string;
+    alg: number;
+  }>;
+  timeout?: number;
+  excludeCredentials?: Array<{
+    id: string;
+    type: string;
+  }>;
+  authenticatorSelection?: {
+    authenticatorAttachment?: "platform" | "cross-platform";
+    residentKey?: "discouraged" | "preferred" | "required";
+    userVerification?: "discouraged" | "preferred" | "required";
   };
 }
 
 export interface PasskeyAuthenticationOptions {
-  publicKey: {
-    challenge: string;
-    timeout?: number;
-    rpId?: string;
-    allowCredentials?: Array<{
-      id: string;
-      type: string;
-    }>;
-    userVerification?: "discouraged" | "preferred" | "required";
-  };
+  challenge: string;
+  timeout?: number;
+  rpId?: string;
+  allowCredentials?: Array<{
+    id: string;
+    type: string;
+  }>;
+  userVerification?: "discouraged" | "preferred" | "required";
   passkeys_available: boolean;
 }
 

@@ -24771,6 +24771,17 @@ class u {
 
 /***/ }),
 
+/***/ "./package.json":
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = /*#__PURE__*/JSON.parse('{"name":"@condomanagement/condo-brain","version":"0.3.10","description":"Common interface for condo apps","types":"./dist/index.d.ts","main":"./dist/bundle.js","files":["dist","LICENSE","README.md"],"publishConfig":{"access":"public"},"scripts":{"test":"npx jest --coverage","build":"npm run build-production; npm run build-development","docs":"npx typedoc --options ./typedoc.json src; touch docs/.nojekyll","publish-docs":"node ./scripts/gh-pages.js","lint":"npx eslint . --ext .js,.jsx,.ts,.tsx","test-watch":"npx jest --watchAll --coverage","build-watch":"npx webpack -w --mode=production","build-production":"npx webpack --mode=production","build-development":"npx webpack --mode=development","build-analyze":"npx webpack --profile --json > stats.json && webpack-bundle-analyzer ./stats.json"},"repository":{"type":"git","url":"git+https://github.com/djensenius/condo-brain.git"},"author":"David Jensenius","license":"MIT","bugs":{"url":"https://github.com/djensenius/condo-brain/issues"},"homepage":"https://github.com/djensenius/condo-brain#readme","engines":{"node":">=24.0.0"},"devDependencies":{"@babel/core":"^7.23.2","@babel/preset-env":"^7.23.2","@babel/types":"^7.23.0","@eslint/js":"^9.39.1","@types/babel__core":"^7.20.4","@types/babel__generator":"^7.6.7","@types/babel__template":"^7.4.4","@types/babel__traverse":"^7.20.4","@types/chai-as-promised":"^8.0.2","@types/jest":"^30.0.0","@types/node":"^24.10.1","@types/sinon":"^20.0.0","babel-loader":"^10.0.0","chai":"^6.2.1","chai-as-promised":"^8.0.2","circular-dependency-plugin":"^5.2.2","codecov":"^3.8.2","eslint":"^9.39.1","eslint-import-resolver-webpack":"^0.13.8","eslint-plugin-import":"^2.29.0","eslint-plugin-jest":"^29.1.0","eslint-plugin-prettier":"^5.0.1","gh-pages":"^6.0.0","jest":"^30.2.0","jest-environment-jsdom":"^30.2.0","mocha":"^11.7.5","path":"^0.12.7","prettier":"^3.0.3","sinon":"^21.0.0","ts-jest":"^29.1.1","ts-loader":"^9.5.0","typedoc":"^0.28.14","typescript":"^5.9.3","typescript-eslint":"^8.46.4","webpack":"^5.89.0","webpack-bundle-analyzer":"^4.9.1","webpack-cli":"^6.0.1","whatwg-fetch":"^3.6.19"},"dependencies":{"@github/webauthn-json":"^2.1.1","axios":"^1.6.0","es-cookie":"^1.4.0","moment":"^2.29.4","ts-md5":"^2.0.1"}}');
+
+/***/ }),
+
 /***/ "./src/managers/admin-api.ts":
 /*!***********************************!*\
   !*** ./src/managers/admin-api.ts ***!
@@ -26269,7 +26280,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ParkingManager: () => (/* reexport safe */ _managers_parking__WEBPACK_IMPORTED_MODULE_0__.ParkingManager),
 /* harmony export */   PasskeyManager: () => (/* reexport safe */ _managers_passkey__WEBPACK_IMPORTED_MODULE_5__.PasskeyManager),
 /* harmony export */   UserManager: () => (/* reexport safe */ _managers_user__WEBPACK_IMPORTED_MODULE_3__.UserManager),
-/* harmony export */   UserType: () => (/* reexport safe */ _services_admin_api__WEBPACK_IMPORTED_MODULE_2__.UserType)
+/* harmony export */   UserType: () => (/* reexport safe */ _services_admin_api__WEBPACK_IMPORTED_MODULE_2__.UserType),
+/* harmony export */   VERSION: () => (/* binding */ VERSION)
 /* harmony export */ });
 /* harmony import */ var _managers_parking__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./managers/parking */ "./src/managers/parking.ts");
 /* harmony import */ var _managers_admin_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./managers/admin-api */ "./src/managers/admin-api.ts");
@@ -26278,6 +26290,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services_user_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/user-api */ "./src/services/user-api.ts");
 /* harmony import */ var _managers_passkey__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./managers/passkey */ "./src/managers/passkey.ts");
 /* harmony import */ var _types_passkey_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./types/passkey-types */ "./src/types/passkey-types.ts");
+/* harmony import */ var _package_json__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../package.json */ "./package.json");
 
 
 
@@ -26285,6 +26298,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// Export version info
+
+var VERSION = _package_json__WEBPACK_IMPORTED_MODULE_7__.version;
 
 })();
 

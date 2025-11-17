@@ -25386,6 +25386,7 @@ var PasskeyManager = /** @class */ (function () {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/check_availability", {
                             params: { email: email },
+                            withCredentials: true,
                         })];
                     case 1:
                         response = _a.sent();
@@ -25403,7 +25404,7 @@ var PasskeyManager = /** @class */ (function () {
             var response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/registration_options")];
+                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/registration_options", { withCredentials: true })];
                     case 1:
                         response = _a.sent();
                         return [2 /*return*/, response.data];
@@ -25435,7 +25436,7 @@ var PasskeyManager = /** @class */ (function () {
                                 token: token,
                                 credential: credential,
                                 nickname: nickname,
-                            })];
+                            }, { withCredentials: true })];
                     case 3:
                         response = _c.sent();
                         return [2 /*return*/, response.data];
@@ -25467,7 +25468,8 @@ var PasskeyManager = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/authentication_options", {
-                            params: { email: email },
+                            params: email ? { email: email } : {},
+                            withCredentials: true,
                         })];
                     case 1:
                         response = _a.sent();
@@ -25479,6 +25481,7 @@ var PasskeyManager = /** @class */ (function () {
     /**
      * Complete passkey authentication
      * Authenticates the user with their passkey
+     * @param email Optional email for account-specific authentication. If omitted, uses usernameless/discoverable credentials
      */
     PasskeyManager.prototype.authenticate = function (email) {
         return __awaiter(this, void 0, void 0, function () {
@@ -25491,7 +25494,7 @@ var PasskeyManager = /** @class */ (function () {
                         return [4 /*yield*/, this.getAuthenticationOptions(email)];
                     case 1:
                         options = _c.sent();
-                        if (!options.passkeys_available) {
+                        if (!options.passkeys_available && email) {
                             return [2 /*return*/, {
                                     success: false,
                                     error: "No passkeys available for this user",
@@ -25504,7 +25507,7 @@ var PasskeyManager = /** @class */ (function () {
                         credential = _c.sent();
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/webauthn/authenticate", {
                                 credential: credential,
-                            })];
+                            }, { withCredentials: true })];
                     case 3:
                         response = _c.sent();
                         return [2 /*return*/, response.data];
@@ -25534,7 +25537,7 @@ var PasskeyManager = /** @class */ (function () {
             var response;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/credentials")];
+                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/webauthn/credentials", { withCredentials: true })];
                     case 1:
                         response = _a.sent();
                         return [2 /*return*/, response.data.credentials];
@@ -25549,7 +25552,9 @@ var PasskeyManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete("/api/webauthn/credentials/".concat(credentialId))];
+                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete("/api/webauthn/credentials/".concat(credentialId), {
+                            withCredentials: true,
+                        })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, true];
@@ -25564,9 +25569,7 @@ var PasskeyManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].patch("/api/webauthn/credentials/".concat(credentialId), {
-                            nickname: nickname,
-                        })];
+                    case 0: return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].patch("/api/webauthn/credentials/".concat(credentialId), { nickname: nickname }, { withCredentials: true })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/, true];

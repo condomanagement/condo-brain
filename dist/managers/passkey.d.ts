@@ -22,12 +22,13 @@ export declare class PasskeyManager {
      * Start passkey authentication process
      * Returns the WebAuthn options needed for authentication
      */
-    getAuthenticationOptions(email: string): Promise<PasskeyAuthenticationOptions>;
+    getAuthenticationOptions(email?: string): Promise<PasskeyAuthenticationOptions>;
     /**
      * Complete passkey authentication
      * Authenticates the user with their passkey
+     * @param email Optional email for account-specific authentication. If omitted, uses usernameless/discoverable credentials
      */
-    authenticate(email: string): Promise<PasskeyAuthenticationResponse>;
+    authenticate(email?: string): Promise<PasskeyAuthenticationResponse>;
     /**
      * List all passkeys for the current user (cookie-based auth)
      */

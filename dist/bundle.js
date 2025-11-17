@@ -25415,7 +25415,7 @@ var PasskeyManager = /** @class */ (function () {
      * Complete passkey registration (cookie-based auth)
      * Creates a new passkey for the user
      */
-    PasskeyManager.prototype.register = function (nickname) {
+    PasskeyManager.prototype.register = function (token, nickname) {
         return __awaiter(this, void 0, void 0, function () {
             var options, credential, response, _error_1;
             var _a, _b;
@@ -25432,6 +25432,7 @@ var PasskeyManager = /** @class */ (function () {
                     case 2:
                         credential = _c.sent();
                         return [4 /*yield*/, axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/webauthn/register", {
+                                token: token,
                                 credential: credential,
                                 nickname: nickname,
                             })];

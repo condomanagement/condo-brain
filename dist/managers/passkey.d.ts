@@ -17,7 +17,7 @@ export declare class PasskeyManager {
      * Complete passkey registration (cookie-based auth)
      * Creates a new passkey for the user
      */
-    register(nickname?: string): Promise<PasskeyRegistrationResponse>;
+    register(token: string, nickname?: string): Promise<PasskeyRegistrationResponse>;
     /**
      * Start passkey authentication process
      * Returns the WebAuthn options needed for authentication

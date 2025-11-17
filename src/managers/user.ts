@@ -116,7 +116,7 @@ export class UserManager implements UserApi {
       return false;
     }
 
-    const result = await this.passkeyManager.register(nickname);
+    const result = await this.passkeyManager.register(this.authKey, nickname);
     return result.success;
   }
 

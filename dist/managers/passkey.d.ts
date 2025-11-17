@@ -9,15 +9,15 @@ export declare class PasskeyManager {
      */
     checkAvailability(email: string): Promise<PasskeyAvailabilityResponse>;
     /**
-     * Start passkey registration process
+     * Start passkey registration process (cookie-based auth)
      * Returns the WebAuthn options needed for credential creation
      */
-    getRegistrationOptions(email: string): Promise<PasskeyRegistrationOptions>;
+    getRegistrationOptions(): Promise<PasskeyRegistrationOptions>;
     /**
-     * Complete passkey registration
+     * Complete passkey registration (cookie-based auth)
      * Creates a new passkey for the user
      */
-    register(token: string, nickname?: string): Promise<PasskeyRegistrationResponse>;
+    register(nickname?: string): Promise<PasskeyRegistrationResponse>;
     /**
      * Start passkey authentication process
      * Returns the WebAuthn options needed for authentication
@@ -29,17 +29,25 @@ export declare class PasskeyManager {
      */
     authenticate(email: string): Promise<PasskeyAuthenticationResponse>;
     /**
-     * List all passkeys for the current user
+     * List all passkeys for the current user (cookie-based auth)
+     */
+    list(): Promise<PasskeyCredential[]>;
+    /**
+     * Delete a passkey (cookie-based auth)
+     */
+    delete(credentialId: number): Promise<boolean>;
+    /**
+     * Update passkey nickname (cookie-based auth)
+     */
+    updateNickname(credentialId: number, nickname: string): Promise<boolean>;
+    /**
+     * @deprecated Use list() instead
      */
     listCredentials(token: string): Promise<PasskeyCredential[]>;
     /**
-     * Delete a passkey
+     * @deprecated Use delete() instead
      */
     deleteCredential(token: string, credentialId: number): Promise<boolean>;
-    /**
-     * Update passkey nickname
-     */
-    updateNickname(token: string, credentialId: number, nickname: string): Promise<boolean>;
 }
 export default PasskeyManager;
 //# sourceMappingURL=passkey.d.ts.map

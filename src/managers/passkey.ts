@@ -42,52 +42,32 @@ export class PasskeyManager {
   }
 
   /**
-   * Start passkey registration process
+   * Start passkey registration process (cookie-based auth)
    * Returns the WebAuthn options needed for credential creation
    */
-  public async getRegistrationOptions(
-    email: string,
-  ): Promise<PasskeyRegistrationOptions> {
+  public async getRegistrationOptions(): Promise<PasskeyRegistrationOptions> {
     const response = await axios.get<PasskeyRegistrationOptions>(
       "/api/webauthn/registration_options",
-      {
-        params: { email },
-      },
     );
     return response.data;
   }
 
   /**
-   * Complete passkey registration
+   * Complete passkey registration (cookie-based auth)
    * Creates a new passkey for the user
    */
-  public async register(
-    token: string,
-    nickname?: string,
-  ): Promise<PasskeyRegistrationResponse> {
+  public async register(nickname?: string): Promise<PasskeyRegistrationResponse> {
     try {
-      // Get user's email from token first
-      const userResponse = await axios.post<{ user: { email: string } }>(
-        "/api/authentication/valid",
-        {
-          token,
-        },
-      );
-      const email = userResponse.data.user.email;
-
       // Get registration options from server
-      const options = await this.getRegistrationOptions(email);
+      const options = await this.getRegistrationOptions();
 
       // Create the credential using WebAuthn
-      const credential = await create(
-        options as unknown as CredentialCreationOptionsJSON,
-      );
+      const credential = await create(options as CredentialCreationOptionsJSON);
 
       // Register the credential with the server
       const response = await axios.post<PasskeyRegistrationResponse>(
         "/api/webauthn/register",
         {
-          token,
           credential,
           nickname,
         },
@@ -145,9 +125,7 @@ export class PasskeyManager {
       }
 
       // Get the credential from the authenticator
-      const credential = await get(
-        options as unknown as CredentialRequestOptionsJSON,
-      );
+      const credential = await get(options as CredentialRequestOptionsJSON);
 
       // Send credential to server for verification
       const response = await axios.post<PasskeyAuthenticationResponse>(
@@ -175,49 +153,53 @@ export class PasskeyManager {
   }
 
   /**
-   * List all passkeys for the current user
+   * List all passkeys for the current user (cookie-based auth)
    */
-  public async listCredentials(token: string): Promise<PasskeyCredential[]> {
+  public async list(): Promise<PasskeyCredential[]> {
     const response = await axios.get<PasskeyListResponse>(
       "/api/webauthn/credentials",
-      {
-        params: { token },
-      },
     );
     return response.data.credentials;
   }
 
   /**
-   * Delete a passkey
+   * Delete a passkey (cookie-based auth)
+   */
+  public async delete(credentialId: number): Promise<boolean> {
+    await axios.delete(`/api/webauthn/credentials/${credentialId}`);
+    return true;
+  }
+
+  /**
+   * Update passkey nickname (cookie-based auth)
+   */
+  public async updateNickname(
+    credentialId: number,
+    nickname: string,
+  ): Promise<boolean> {
+    await axios.patch(`/api/webauthn/credentials/${credentialId}`, {
+      nickname,
+    });
+    return true;
+  }
+
+  // Deprecated methods (for backward compatibility)
+  
+  /**
+   * @deprecated Use list() instead
+   */
+  public async listCredentials(token: string): Promise<PasskeyCredential[]> {
+    return this.list();
+  }
+
+  /**
+   * @deprecated Use delete() instead
    */
   public async deleteCredential(
     token: string,
     credentialId: number,
   ): Promise<boolean> {
-    await axios.delete(`/api/webauthn/credentials/${credentialId}`, {
-      params: { token },
-    });
-    return true;
-  }
-
-  /**
-   * Update passkey nickname
-   */
-  public async updateNickname(
-    token: string,
-    credentialId: number,
-    nickname: string,
-  ): Promise<boolean> {
-    await axios.patch(
-      `/api/webauthn/credentials/${credentialId}`,
-      {
-        nickname,
-      },
-      {
-        params: { token },
-      },
-    );
-    return true;
+    return this.delete(credentialId);
   }
 }
 
